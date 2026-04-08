@@ -1,0 +1,202 @@
+[
+  {
+    "model": "products_app.product",
+    "pk": 1,
+    "fields": {
+      "name": "Extra Firm Tofu",
+      "brand": "Nasoya",
+      "upc": "070673000608",
+      "category": "protein"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 2,
+    "fields": {
+      "name": "Traditional Seitan",
+      "brand": "Uptons Naturals",
+      "upc": "854047001002",
+      "category": "protein"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 3,
+    "fields": {
+      "name": "Plant-Based Chopped Chicken",
+      "brand": "Abbots Butcher",
+      "upc": "850012345067",
+      "category": "protein"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 4,
+    "fields": {
+      "name": "Organic Tempeh",
+      "brand": "Lightlife",
+      "upc": "043454805252",
+      "category": "protein"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 5,
+    "fields": {
+      "name": "Silken Tofu",
+      "brand": "Mori-Nu",
+      "upc": "085696608011",
+      "category": "protein"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 6,
+    "fields": {
+      "name": "Oatmilk (Full Fat)",
+      "brand": "Oatly",
+      "upc": "853506006053",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 7,
+    "fields": {
+      "name": "Unsweetened Almond Milk",
+      "brand": "Califia Farms",
+      "upc": "852909003058",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 8,
+    "fields": {
+      "name": "Cutting Board Collection Mexican Blend Shreds",
+      "brand": "Daiya",
+      "upc": "871459001530",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 9,
+    "fields": {
+      "name": "Just Like Mozzarella Shreds",
+      "brand": "Violife",
+      "upc": "871921438815",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 10,
+    "fields": {
+      "name": "Greek Style Almond Milk Yogurt",
+      "brand": "Kite Hill",
+      "upc": "856643004506",
+      "category": "dairy"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 11,
+    "fields": {
+      "name": "Seven Grain Crispy Tenders",
+      "brand": "Gardein",
+      "upc": "042234000527",
+      "category": "frozen"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 12,
+    "fields": {
+      "name": "Vegan Mac & Cheeze",
+      "brand": "Amy's Kitchen",
+      "upc": "042272008134",
+      "category": "frozen"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 13,
+    "fields": {
+      "name": "Dairy-Free Cherry Garcia",
+      "brand": "Ben & Jerry's",
+      "upc": "076840600122",
+      "category": "frozen"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 14,
+    "fields": {
+      "name": "Veggie Chick'n Strips",
+      "brand": "MorningStar Farms",
+      "upc": "028989101235",
+      "category": "frozen"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 15,
+    "fields": {
+      "name": "Plant-Based Meatballs",
+      "brand": "Beyond Meat",
+      "upc": "810003510500",
+      "category": "frozen"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 16,
+    "fields": {
+      "name": "Textured Vegetable Protein (TVP)",
+      "brand": "Bob's Red Mill",
+      "upc": "039978001640",
+      "category": "pantry"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 17,
+    "fields": {
+      "name": "Vegan Chicken Flavored Bouillon",
+      "brand": "Better Than Bouillon",
+      "upc": "098308007204",
+      "category": "pantry"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 18,
+    "fields": {
+      "name": "Organic Black Beans",
+      "brand": "Eden Foods",
+      "upc": "024182000552",
+      "category": "pantry"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 19,
+    "fields": {
+      "name": "Nutritional Yeast Flakes",
+      "brand": "Bragg",
+      "upc": "074305061458",
+      "category": "pantry"
+    }
+  },
+  {
+    "model": "products_app.product",
+    "pk": 20,
+    "fields": {
+      "name": "Plant-Based Jerky",
+      "brand": "Louisville Vegan Jerky",
+      "upc": "852865005011",
+      "category": "pantry"
+    }
+  }
+]

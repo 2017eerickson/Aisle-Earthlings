@@ -1,0 +1,128 @@
+[
+  {
+    "model": "stores_app.store",
+    "pk": 1,
+    "fields": {
+      "zipcode": "21701",
+      "name": "Wegmans",
+      "retailer_id": "ret_wegmans",
+      "address": "7830 Wormans Mill Rd",
+      "city": "Frederick",
+      "state": "MD",
+      "is_active": true,
+      "features": ["delivery", "pickup", "alcohol"]
+    }
+  },
+  {
+    "model": "stores_app.store",
+    "pk": 2,
+    "fields": {
+      "zipcode": "21701",
+      "name": "Giant Eagle",
+      "retailer_id": "ret_gianteagle",
+      "address": "1305 W 7th St",
+      "city": "Frederick",
+      "state": "MD",
+      "is_active": true,
+      "features": ["delivery", "pickup"]
+    }
+  },
+  {
+    "model": "stores_app.store",
+    "pk": 3,
+    "fields": {
+      "zipcode": "21701",
+      "name": "Safeway",
+      "retailer_id": "ret_safeway",
+      "address": "151 Walkers Village Way",
+      "city": "Frederick",
+      "state": "MD",
+      "is_active": true,
+      "features": ["delivery", "pickup", "coupons"]
+    }
+  },
+  {
+    "model": "stores_app.store",
+    "pk": 4,
+    "fields": {
+      "zipcode": "92025",
+      "name": "Vons",
+      "retailer_id": "ret_vons",
+      "address": "351 W Felicita Ave",
+      "city": "Escondido",
+      "state": "CA",
+      "is_active": true,
+      "features": ["delivery", "pickup", "alcohol"]
+    }
+  },
+  {
+    "model": "stores_app.store",
+    "pk": 5,
+    "fields": {
+      "zipcode": "92025",
+      "name": "Sprouts Farmers Market",
+      "retailer_id": "ret_sprouts",
+      "address": "510 W Felicita Ave",
+      "city": "Escondido",
+      "state": "CA",
+      "is_active": true,
+      "features": ["delivery", "pickup", "organic"]
+    }
+  },
+  {
+    "model": "stores_app.store",
+    "pk": 6,
+    "fields": {
+      "zipcode": "92025",
+      "name": "Stater Bros. Market",
+      "retailer_id": "ret_staterbros",
+      "address": "1055 W Felicita Ave",
+      "city": "Escondido",
+      "state": "CA",
+      "is_active": true,
+      "features": ["delivery"]
+    }
+  },
+  {
+    "model": "stores_app.store",
+    "pk": 7,
+    "fields": {
+      "zipcode": "92262",
+      "name": "Albertsons",
+      "retailer_id": "ret_albertsons",
+      "address": "1751 N Sunrise Way",
+      "city": "Palm Springs",
+      "state": "CA",
+      "is_active": true,
+      "features": ["delivery", "pickup", "alcohol"]
+    }
+  },
+  {
+    "model": "stores_app.store",
+    "pk": 8,
+    "fields": {
+      "zipcode": "92262",
+      "name": "Stater Bros. Market",
+      "retailer_id": "ret_staterbros",
+      "address": "1717 E Vista Chino",
+      "city": "Palm Springs",
+      "state": "CA",
+      "is_active": true,
+      "features": ["delivery", "pickup"]
+    }
+  },
+  {
+    "model": "stores_app.store",
+    "pk": 9,
+    "fields": {
+      "zipcode": "92262",
+      "name": "Jensen's Finest Foods",
+      "retailer_id": "ret_jensens",
+      "address": "2465 E Palm Canyon Dr",
+      "city": "Palm Springs",
+      "state": "CA",
+      "is_active": true,
+      "features": ["delivery", "specialty"]
+    }
+  }
+]
