@@ -1,0 +1,10 @@
+asgiref==3.11.1
+Django==6.0.3
+djangorestframework==3.17.0
+dotenv==0.9.9
+gunicorn==25.1.0
+packaging==26.0
+psycopg==3.3.3
+psycopg-binary==3.3.3
+python-dotenv==1.2.2
+sqlparse==0.5.5

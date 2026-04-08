@@ -1,0 +1,16 @@
+.env
+/node_modules
+/.env
+/venv
+/__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+db.sqlite3
+/media
+/staticfiles
+/static
+.DS_Store
+.idea
+.vscode
