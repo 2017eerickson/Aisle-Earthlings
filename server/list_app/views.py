@@ -43,7 +43,7 @@ class ShoppingList(APIView):
         serializer.save(list=shopping_list)
         return Response(serializer.data, status=s.HTTP_201_CREATED)
 
-class ListItemCUD(APIView):
+class ListItemRUD(APIView):
     """
     PATCH /api/v1/list/<user_id>/items/<item_id>/ — update item (e.g. check/uncheck, change quantity)
         -Body can include any of: { quantity, checked }
