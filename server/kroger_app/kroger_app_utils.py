@@ -407,6 +407,97 @@ def get_vegan_products_for_location(location_id, limit=30):
     return results
 
 
+def get_products_by_search_term(location_id, search_term, limit=30):
+    """
+    Fetch up to `limit` products from Kroger matching `search_term` at a specific store.
+    The search term is prefixed with "vegan" so results are always vegan-tagged.
+
+    Calls: GET /v1/products?filter.term=vegan+{search_term}&filter.locationId=X&filter.limit=N
+
+    Each product is upserted into CachedProduct + ProductPrice as a side effect,
+    preserving any existing vegan_checked / is_vegan values.
+
+    Args:
+        location_id (str): Kroger locationId, e.g. "01400376"
+        search_term (str): User-supplied search string, e.g. "almond milk"
+        limit       (int): Max products to return. Default 30, Kroger hard cap is 50.
+
+    Returns:
+        list[dict]: Serialized product + price data, same shape as
+                    get_vegan_products_for_location().
+
+    Raises:
+        KrogerAPIError: If the Kroger API call fails.
+        CachedStore.DoesNotExist: If location_id is not in CachedStore.
+                                   Call get_locations_by_zip() first.
+    """
+    store = CachedStore.objects.get(location_id=location_id)
+
+    term = f'vegan {search_term.strip()}'
+
+    logger.info(
+        'Searching up to %d products for term %r at location %s (%s)',
+        limit, term, location_id, store.display_name,
+    )
+
+    data = _kroger_get('/products', params={
+        'filter.term': term,
+        'filter.locationId': location_id,
+        'filter.limit': min(limit, 50),
+    })
+
+    raw_products = data.get('data', [])
+    results = []
+
+    for raw in raw_products:
+        upc = raw.get('productId') or raw.get('upc')
+        if not upc:
+            continue
+
+        product_fields, price_fields = _parse_product(raw)
+
+        product, created = CachedProduct.objects.update_or_create(
+            upc=upc,
+            defaults=product_fields,
+        )
+
+        price_obj, _ = ProductPrice.objects.update_or_create(
+            product=product,
+            store=store,
+            defaults=price_fields,
+        )
+
+        results.append({
+            'upc': product.upc,
+            'name': product.name,
+            'brand': product.brand,
+            'categories': product.categories,
+            'image_front': product.image_front,
+            'image_back': product.image_back,
+            'vegan_status': product.vegan_status,
+            'is_vegan': product.is_vegan,
+            'vegan_checked': product.vegan_checked,
+            'price': str(price_obj.price) if price_obj.price is not None else None,
+            'price_per_unit': price_obj.price_per_unit,
+            'size': price_obj.size,
+            'sold_by': price_obj.sold_by,
+            'in_stock': price_obj.in_stock,
+            'location_id': location_id,
+        })
+
+        logger.debug(
+            '%s product %s (%s) @ %s',
+            'Created' if created else 'Updated',
+            upc, product.name, store.display_name,
+        )
+
+    logger.info(
+        'Returning %d products for term %r at location %s',
+        len(results), term, location_id,
+    )
+    return results
+
+
 def get_vegan_products_for_locations(location_ids, limit_per_location=30):
     """
     Fetch vegan products for multiple stores — used by the compare page.

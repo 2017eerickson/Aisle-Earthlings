@@ -21,6 +21,8 @@ KROGER_CLIENT_ID=os.getenv('KROGER_CLIENT_ID')
 KROGER_CLIENT_SECRET=os.getenv('KROGER_CLIENT_SECRET')
 KROGER_API_BASE_URL=os.getenv('KROGER_API_BASE_URL')
 
+GEMINI_API_KEY=os.getenv('GEMINI_API_KEY')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent

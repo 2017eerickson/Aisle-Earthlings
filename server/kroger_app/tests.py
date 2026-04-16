@@ -148,3 +148,26 @@ class ProductDetailByLocationTests(TestCase):
     def test_kroger_api_error_returns_502(self, _):
         response = self.client.post(DETAIL_URL, {'location_id': '01400376', 'upc': '0001111042058'})
         self.assertEqual(response.status_code, 502)
+
+
+# ---------------------------------------------------------------------------
+# POST /api/v1/kroger/search/products/by-term/
+# ---------------------------------------------------------------------------
+SEARCH_BY_TERM_URL = '/api/v1/kroger/search/products/by-term/'
+
+class ProductSearchByTermTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+
+    def test_missing_search_term_returns_400(self):
+        response = self.client.post(SEARCH_BY_TERM_URL, {'location_id': '01400376'})
+        self.assertEqual(response.status_code, 400)
+
+    @patch('kroger_app.views.get_products_by_search_term')
+    def test_valid_request_returns_200_with_products(self, mock_fn):
+        mock_fn.return_value = [SAMPLE_PRODUCT]
+        response = self.client.post(SEARCH_BY_TERM_URL, {'location_id': '01400376', 'search_term': 'almond milk'})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(len(response.data), 1)
+        self.assertEqual(response.data[0]['upc'], '0001111042058')
+        mock_fn.assert_called_once_with('01400376', 'almond milk')
