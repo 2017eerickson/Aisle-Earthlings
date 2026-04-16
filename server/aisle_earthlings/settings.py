@@ -10,11 +10,17 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 import os
 from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
+
+KROGER_CLIENT_ID=os.getenv('KROGER_CLIENT_ID')
+KROGER_CLIENT_SECRET=os.getenv('KROGER_CLIENT_SECRET')
+KROGER_API_BASE_URL=os.getenv('KROGER_API_BASE_URL')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -36,21 +42,31 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework_simplejwt', 
+    'rest_framework_simplejwt.token_blacklist', #for refreash token blacklisting
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'products_app',
-    'corsheaders'
-    'stores_app',
-    'stores_inventory_app',
-    'rest_framework.authtoken',
+    # 'rest_framework.authtoken', no longer have acess to auth token
+    'corsheaders',
     'users_app',
+    'gemini_app',   
+    'kroger_app',
+    'list_app',
 ]
 
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=15),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=2),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
+
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -85,8 +101,8 @@ WSGI_APPLICATION = 'aisle_earthlings.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.getenv('POSTGGRES_DB'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_DB'),
         'USER': os.getenv('POSTGRES_USER'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
         'HOST': os.getenv('HOST'),
@@ -139,3 +155,4 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+

@@ -10,6 +10,7 @@
 db.sqlite3
 /media
 /staticfiles
+/postgres_data/
 /static
 .DS_Store
 .idea
