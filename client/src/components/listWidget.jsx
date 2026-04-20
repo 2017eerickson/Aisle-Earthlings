@@ -2,7 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import { List } from 'lucide-react'
 
-export default function listWidget() {
+export default function ListWidget() {
   return (
     <div>
          {/* Floating list widget */}

@@ -4,7 +4,7 @@ from rest_framework import status as s
 
 from kroger_app.models import CachedProduct
 from .gemini_utils import check_vegan_by_upc, GeminiAPIError
-
+from rest_framework.throttling import UserRateThrottle
 
 class VeganCheck(APIView):
     """
@@ -18,7 +18,8 @@ class VeganCheck(APIView):
         404 — product not in cache (fetch from Kroger first)
         502 — Gemini API error
     """
-
+    throttle_classes = [UserRateThrottle]
+    
     def get(self, request, upc):
         try:
             product, cached = check_vegan_by_upc(upc)

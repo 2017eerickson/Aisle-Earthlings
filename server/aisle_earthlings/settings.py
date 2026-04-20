@@ -112,6 +112,15 @@ DATABASES = {
         
     }
 }
+CACHES = {
+            "default":{
+                'BACKEND':'django_redis.cache.Redis',
+                'LOCATION':os.environ.get('REDIS_URL' , 'redis://redis:6379/0'),
+                'OPTIONS':{
+                    'CLIENT_CLASS' : 'django_redis.client.DefaultClient'
+                }
+            }
+        }
 
 
 # Password validation
@@ -123,6 +132,12 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
+    'DEFAULT_THROTTLE_CLASSES': [
+				        'rest_framework.throttling.UserRateThrottle',
+				    ],
+				    'DEFAULT_THROTTLE_RATES': {
+				        'user': '25/day', 
+				        }
 }
 
 AUTH_PASSWORD_VALIDATORS = [
