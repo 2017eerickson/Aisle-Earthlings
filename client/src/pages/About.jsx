@@ -1,6 +1,8 @@
 import React from 'react'
+import {useNavaigate} from 'react-douter-dom'
 
 export default function About() {
+    const navigate = Navigate()
   return (
     <div className="max-w-2xl py-8 font-sans mx-auto">
         <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-3">
@@ -68,6 +70,9 @@ export default function About() {
             <p className="text-sm leading-relaxed text-gray-500">
             Most vegans know that not everything tagged "vegan" in a search is always 100% vegan. We've done our best to surface purely plant-based products, but some items do slip through the filter. We always recommend double-checking — nutrition fact photos are included on every item, and there's a built-in Gemini vegan food reviewer button to help you verify anything you're unsure about.
             </p>
+        </div>
+        <div className="flex items-center justify-center my-10 bg-green-700 text-white rounded-lg py-4 border-yellow-100 border-2 shadow-lg">
+            <button onClick = {()=>{navigate('/')}}><h1 className='font-bold tracking-[0.20em]'>Login or Create Account</h1></button>
         </div>
 
         <p className="text-base leading-relaxed text-gray-800">
