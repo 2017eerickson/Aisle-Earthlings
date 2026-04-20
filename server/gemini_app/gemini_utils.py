@@ -33,7 +33,7 @@ import json
 import logging
 
 import requests
-import google.generativeai as genai
+from google import genai
 from django.conf import settings
 
 from kroger_app.models import CachedProduct
