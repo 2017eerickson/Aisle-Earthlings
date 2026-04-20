@@ -13,7 +13,10 @@ export async function verifyUser() {
 }
 
 export async function createUser(email, password) {
-    const response = await authAPI.post('/create/', { email, password })
+    const response = await authAPI.post('/create/', {
+        'email': email,
+        'password': password
+    })
     if (response.status !== 201) throw new Error(`Unexpected status: ${response.status}`)
     return response.data
 }

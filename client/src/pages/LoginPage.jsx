@@ -15,10 +15,11 @@ export default function LoginPage() {
         try {
             if (isLogin) {
                 await loginUser(email, password)
+                 navigate('/homepage')
             } else {
                 await createUser(email, password)
             }
-            navigate('/')
+            navigate('/homepage')
         } catch (err) {
             setError(err.response?.data || 'Something went wrong. Please try again.')
         }
