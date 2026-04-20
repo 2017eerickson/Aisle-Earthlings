@@ -1,8 +1,8 @@
 import React from 'react'
-import {useNavaigate} from 'react-douter-dom'
+import { Link } from "react-router-dom";
+
 
 export default function About() {
-    const navigate = Navigate()
   return (
     <div className="max-w-2xl py-8 font-sans mx-auto">
         <p className="text-xs font-medium tracking-widest text-gray-400 uppercase mb-3">
@@ -72,7 +72,7 @@ export default function About() {
             </p>
         </div>
         <div className="flex items-center justify-center my-10 bg-green-700 text-white rounded-lg py-4 border-yellow-100 border-2 shadow-lg">
-            <button onClick = {()=>{navigate('/')}}><h1 className='font-bold tracking-[0.20em]'>Login or Create Account</h1></button>
+            <button><Link to='/' ><h1 className='font-bold tracking-[0.20em]'>Login or Create Account</h1></Link></button>
         </div>
 
         <p className="text-base leading-relaxed text-gray-800">

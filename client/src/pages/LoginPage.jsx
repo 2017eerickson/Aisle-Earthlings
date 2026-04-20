@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { loginUser, createUser } from '../utils/authUtils'
+import { useOutletContext } from 'react-router-dom'
 
 export default function LoginPage() {
     const [isLogin, setIsLogin] = useState(true)
@@ -8,6 +9,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState('')
     const [error, setError] = useState(null)
     const navigate = useNavigate()
+    const { setIsAuthenticated } = useOutletContext()
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -15,11 +17,13 @@ export default function LoginPage() {
         try {
             if (isLogin) {
                 await loginUser(email, password)
+                setIsAuthenticated(true)
                  navigate('/homepage')
             } else {
                 await createUser(email, password)
+                setIsAuthenticated(true)
+                navigate('/homepage')
             }
-            navigate('/homepage')
         } catch (err) {
             setError(err.response?.data || 'Something went wrong. Please try again.')
         }

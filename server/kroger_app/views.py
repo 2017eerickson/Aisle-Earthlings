@@ -104,6 +104,23 @@ class ProductSearchByTerm(APIView):
         return Response(products, status=s.HTTP_200_OK)
 
 
+class StoreDetail(APIView):
+    """
+    GET /api/v1/kroger/stores/<location_id>/
+    Returns a single cached store by location_id.
+    Call StoresByZip first so the store exists in CachedStore.
+    """
+    def get(self, request, location_id):
+        try:
+            store = CachedStore.objects.get(location_id=location_id)
+        except CachedStore.DoesNotExist:
+            return Response(
+                {'error': f'Store {location_id!r} not found. Fetch stores by zip code first.'},
+                status=s.HTTP_404_NOT_FOUND,
+            )
+        return Response(CachedStoreSerializer(store).data, status=s.HTTP_200_OK)
+
+
 class ProductDetailByLocation(APIView):
     """
     POST /api/v1/kroger/products/detail/
