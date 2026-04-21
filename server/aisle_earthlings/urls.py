@@ -23,4 +23,5 @@ urlpatterns = [
     path('api/v1/kroger/', include('kroger_app.urls')),
     path('api/v1/list/', include('list_app.urls')),
     path('api/v1/gemini/', include('gemini_app.urls')),
+    path('api/v1/favorites/', include('user_favorites_app.urls')),
 ]

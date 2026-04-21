@@ -9,7 +9,7 @@ class CachedStoreSerializer(serializers.ModelSerializer):
         model = CachedStore
         fields = [
             'location_id', 'name', 'store_number', 'address_line',
-            'city', 'state', 'zip_code', 'latitude', 'longitude',
+            'city', 'state', 'zip_code',
             'distance_miles', 'cached_at', 'display_name',
         ]
 

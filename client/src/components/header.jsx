@@ -1,11 +1,11 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Navigate } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function Header({ menuOpen, setMenuOpen }) {
   return (
-    <div id='header' className='flex flex-row justify-between items-center p-4 border-b-2 border-gray-200'>
+    <div id='header' className='sticky top-0 z-30 bg-white flex flex-row justify-between items-center p-4 border-b-2 border-gray-200'>
       <button onClick={() => setMenuOpen(!menuOpen)} className='cursor-pointer text-stone-900'>
         <AnimatePresence mode="wait" initial={false}>
           {menuOpen ? (
@@ -34,7 +34,7 @@ export default function Header({ menuOpen, setMenuOpen }) {
         </AnimatePresence>
       </button>
       <h1 className='text-green-700 text-5xl tracking-[.20em]'>
-        <Link to='/'>AISLE EARTHLINGS</Link>
+        <Link to='/homepage'>AISLE EARTHLINGS</Link>
       </h1>
       <h3><Link to='/about'>ABOUT</Link></h3>
     </div>

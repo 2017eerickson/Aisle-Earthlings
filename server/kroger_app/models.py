@@ -38,12 +38,7 @@ class CachedStore(models.Model):
         default='',
         help_text='The zip code that was queried when this store was cached.',
     )
-    latitude = models.DecimalField(
-        max_digits=9, decimal_places=6, null=True, blank=True,
-    )
-    longitude = models.DecimalField(
-        max_digits=9, decimal_places=6, null=True, blank=True,
-    )
+    
     distance_miles = models.DecimalField(
         max_digits=6,
         decimal_places=2,
@@ -51,6 +46,34 @@ class CachedStore(models.Model):
         blank=True,
         help_text='Miles from the zip that last fetched this store. Approximate.',
     )
+    # Gemini store info
+    logo_url = models.URLField(
+        blank=True,
+        default='',
+        help_text='Constructed from chain domain via Clearbit logo API.',
+    )
+    hours = models.TextField(
+        blank=True,
+        default='',
+        help_text='Typical chain hours as returned by Gemini, e.g. "Mon–Sun 6am–11pm".',
+    )
+    review_summary = models.TextField(
+        blank=True,
+        default='',
+        help_text='2–3 sentence customer sentiment summary from Gemini.',
+    )
+    rating = models.DecimalField(
+        max_digits=3,
+        decimal_places=1,
+        null=True,
+        blank=True,
+        help_text='Typical customer rating (e.g. 4.2) as reported by Gemini.',
+    )
+    info_checked = models.BooleanField(
+        default=False,
+        help_text='True once Gemini has been called for store info, regardless of result.',
+    )
+
     cached_at = models.DateTimeField(auto_now=True)
 
     class Meta:

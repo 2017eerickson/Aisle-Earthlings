@@ -4,10 +4,16 @@ import { Outlet } from 'react-router-dom'
 import Header from './components/header'
 import SideNav from './components/sideNav'
 import { verifyUser } from './utils/authUtils'
+import { getFavorites, addFavorite, removeFavorite } from './utils/favoritesUtils'
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [isAuthenticated, setIsAuthenticated] = useState(null)
+  const [stores, setStores] = useState([])
+  const [zipcode, setZipcode] = useState('')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [storeInfoMap, setStoreInfoMap] = useState({})
+  const [favorites, setFavorites] = useState([])
 
   useEffect(() => {
     async function checkAuth() {
@@ -21,6 +27,34 @@ function App() {
     checkAuth()
   }, [])
 
+  useEffect(() => {
+    if (!isAuthenticated) return
+    async function loadFavorites() {
+      try {
+        const data = await getFavorites()
+        setFavorites(data)
+      } catch (e) {
+        console.error('Error loading favorites:', e)
+      }
+    }
+    loadFavorites()
+  }, [isAuthenticated])
+
+  function isFavorite(type, referenceId) {
+    return favorites.some(f => f.favorite_type === type && f.reference_id === referenceId)
+  }
+
+  async function toggleFavorite(type, referenceId) {
+    const existing = favorites.find(f => f.favorite_type === type && f.reference_id === referenceId)
+    if (existing) {
+      await removeFavorite(existing.id)
+      setFavorites(prev => prev.filter(f => f.id !== existing.id))
+    } else {
+      const newFav = await addFavorite(type, referenceId)
+      setFavorites(prev => [...prev, newFav])
+    }
+  }
+
   return (
     <>
       <Header menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
@@ -30,7 +64,7 @@ function App() {
         isAuthenticated={isAuthenticated}
         setIsAuthenticated={setIsAuthenticated}
       />
-      <Outlet context={{ isAuthenticated, setIsAuthenticated }} />
+      <Outlet context={{ isAuthenticated, setIsAuthenticated, stores, setStores, zipcode, setZipcode, searchQuery, setSearchQuery, storeInfoMap, setStoreInfoMap, isFavorite, toggleFavorite }} />
     </>
   )
 }

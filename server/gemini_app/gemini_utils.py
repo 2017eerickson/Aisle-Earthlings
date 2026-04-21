@@ -34,13 +34,14 @@ import logging
 
 import requests
 from google import genai
+from google.genai import types
 from django.conf import settings
 
 from kroger_app.models import CachedProduct
 
 logger = logging.getLogger(__name__)
 
-GEMINI_MODEL = 'gemini-3.1-flash-lite-preview'
+GEMINI_MODEL = 'gemini-2.0-flash'
 
 _PROMPT = """\
 You are a vegan product verification assistant.
@@ -62,6 +63,26 @@ Respond ONLY with a JSON object — no markdown, no extra text:
 """
 
 
+_STORE_INFO_PROMPT = """\
+You are a grocery store information assistant.
+
+Using your knowledge, provide the following for this grocery store chain:
+
+Store: {name}
+Location: {address_line}, {city}, {state}
+
+Return ONLY a JSON object — no markdown, no extra text:
+{{
+  "chain_domain": "the official website domain, e.g. kroger.com",
+  "hours": "typical operating hours as a readable string, e.g. Mon-Sun 6am-11pm",
+  "review_summary": "2-3 sentence summary of what customers generally say about this chain",
+  "rating": 4.2
+}}
+
+Use null for any field you cannot determine with confidence.
+"""
+
+
 class GeminiAPIError(Exception):
     pass
 
@@ -80,9 +101,7 @@ def _build_parts(product):
             resp = requests.get(product.image_back, timeout=10)
             resp.raise_for_status()
             mime = resp.headers.get('Content-Type', 'image/jpeg').split(';')[0].strip()
-            image_part = genai.protos.Part(
-                inline_data=genai.protos.Blob(mime_type=mime, data=resp.content)
-            )
+            image_part = types.Part.from_bytes(data=resp.content, mime_type=mime)
             image_note = 'The back-of-pack image is also provided — use it to check ingredients.'
             logger.debug('image_back fetched for upc %s (%d bytes)', product.upc, len(resp.content))
         except requests.RequestException as e:
@@ -154,13 +173,11 @@ def check_vegan_by_upc(upc):
 
     logger.info('Vegan cache miss for upc %s — calling Gemini', upc)
 
-    genai.configure(api_key=settings.GEMINI_API_KEY)
-    model = genai.GenerativeModel(GEMINI_MODEL)
-
+    client = genai.Client(api_key=settings.GEMINI_API_KEY)
     parts = _build_parts(product)
 
     try:
-        response = model.generate_content(parts)
+        response = client.models.generate_content(model=GEMINI_MODEL, contents=parts)
         raw = response.text
     except Exception as e:
         raise GeminiAPIError(f'Gemini API call failed for upc {upc}: {e}') from e
@@ -171,3 +188,83 @@ def check_vegan_by_upc(upc):
 
     logger.info('Vegan check complete for upc %s — status: %s', upc, product.vegan_status)
     return product, False
+
+
+def _parse_store_info_response(raw, location_id):
+    """
+    Parse Gemini's JSON store info response.
+    Returns a dict with chain_domain, hours, review_summary, rating.
+    Returns empty dict on parse failure.
+    """
+    text = raw.strip()
+
+    if text.startswith('```'):
+        text = text.split('\n', 1)[1].rsplit('```', 1)[0].strip()
+
+    try:
+        return json.loads(text)
+    except (json.JSONDecodeError, AttributeError) as e:
+        logger.warning(
+            'Failed to parse Gemini store info JSON for location %s: %s — raw: %.200s',
+            location_id, e, raw,
+        )
+        return {}
+
+
+def get_store_info(location_id):
+    """
+    Return logo URL, hours, review summary, and rating for the given store.
+
+    Cache-first: if CachedStore.info_checked is True, returns immediately
+    without calling Gemini.
+
+    Logo is constructed via Clearbit's free logo API using the chain domain
+    Gemini provides (e.g. https://logo.clearbit.com/kroger.com).
+
+    Args:
+        location_id (str): Must exist in CachedStore.
+
+    Returns:
+        tuple(CachedStore, bool): The updated store and whether result was cached.
+
+    Raises:
+        CachedStore.DoesNotExist: If the location_id is not in the cache.
+        GeminiAPIError: If the Gemini API call fails.
+    """
+    from kroger_app.models import CachedStore
+
+    store = CachedStore.objects.get(location_id=location_id)
+
+    if store.info_checked:
+        logger.debug('Store info cache hit for location %s', location_id)
+        return store, True
+
+    logger.info('Store info cache miss for location %s — calling Gemini', location_id)
+
+    client = genai.Client(api_key=settings.GEMINI_API_KEY)
+
+    prompt = _STORE_INFO_PROMPT.format(
+        name=store.name,
+        address_line=store.address_line,
+        city=store.city,
+        state=store.state,
+    )
+
+    try:
+        response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
+        raw = response.text
+    except Exception as e:
+        raise GeminiAPIError(f'Gemini API call failed for location {location_id}: {e}') from e
+
+    data = _parse_store_info_response(raw, location_id)
+
+    domain = data.get('chain_domain')
+    store.logo_url = f'https://logo.clearbit.com/{domain}' if domain else ''
+    store.hours = data.get('hours') or ''
+    store.review_summary = data.get('review_summary') or ''
+    store.rating = data.get('rating')
+    store.info_checked = True
+    store.save(update_fields=['logo_url', 'hours', 'review_summary', 'rating', 'info_checked'])
+
+    logger.info('Store info saved for location %s', location_id)
+    return store, False

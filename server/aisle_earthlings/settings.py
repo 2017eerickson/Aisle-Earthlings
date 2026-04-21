@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'gemini_app',   
     'kroger_app',
     'list_app',
+    'user_favorites_app',
 ]
 
 SIMPLE_JWT = {
@@ -112,15 +113,15 @@ DATABASES = {
         
     }
 }
-CACHES = {
-            "default":{
-                'BACKEND':'django_redis.cache.Redis',
-                'LOCATION':os.environ.get('REDIS_URL' , 'redis://redis:6379/0'),
-                'OPTIONS':{
-                    'CLIENT_CLASS' : 'django_redis.client.DefaultClient'
-                }
-            }
-        }
+# CACHES = {
+#             "default":{
+#                 'BACKEND':'django_redis.cache.Redis',
+#                 'LOCATION':os.environ.get('REDIS_URL' , 'redis://redis:6379/0'),
+#                 'OPTIONS':{
+#                     'CLIENT_CLASS' : 'django_redis.client.DefaultClient'
+#                 }
+#             }
+#         }
 
 
 # Password validation
@@ -136,7 +137,7 @@ REST_FRAMEWORK = {
 				        'rest_framework.throttling.UserRateThrottle',
 				    ],
 				    'DEFAULT_THROTTLE_RATES': {
-				        'user': '25/day', 
+				        'user': '250/day', 
 				        }
 }
 
