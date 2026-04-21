@@ -130,7 +130,12 @@ export default function StorePanel({ stores, selectedStore, onSelectStore, isEdi
         ) : products.length > 0 ? (
           <div className='grid grid-cols-2 gap-2 p-2'>
             {products.map(product => (
-              <ProductCard key={product.upc} product={product} />
+              <ProductCard
+                key={product.upc}
+                product={product}
+                storeName={selectedStore.name}
+                storeAddress={selectedStore.address_line}
+              />
             ))}
           </div>
         ) : (

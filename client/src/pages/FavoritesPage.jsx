@@ -22,7 +22,6 @@ export default function FavoritesPage() {
   useEffect(() => {
     const storeFavs = favorites.filter(f => f.favorite_type === 'store')
     if (storeFavs.length === 0) { setStoreData([]); return }
-    console.log(storeFavs)
     setLoadingStores(true)
     Promise.allSettled(storeFavs.map(f => getStoreDetail(f.reference_id)
       .then(r => r.data)))
@@ -34,7 +33,6 @@ export default function FavoritesPage() {
     const productFavs = favorites.filter(f => f.favorite_type === 'product')
     if (productFavs.length === 0) { setProductData([]); return }
     setLoadingProducts(true)
-    console.log(productFavs)
     Promise.allSettled(productFavs.map(f => getProductDetail(f.location_id, f.reference_id)
       .then(r => r.data)))
       .then(results => setProductData(results.filter(r => r.status === 'fulfilled').map(r => r.value)))

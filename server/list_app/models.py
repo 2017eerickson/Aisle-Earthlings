@@ -50,6 +50,18 @@ class ShoppingListItem(models.Model):
         default='',
         help_text='location_id of the store the user added this item from.',
     )
+    store_name = models.CharField(
+        max_length=255,
+        blank=True,
+        default='',
+        help_text='Denormalized store display name so the list is readable without a Kroger API call.',
+    )
+    store_address = models.CharField(
+        max_length=255,
+        blank=True,
+        default='',
+        help_text='Denormalized store address line.',
+    )
     quantity = models.PositiveSmallIntegerField(default=1)
     
     checked = models.BooleanField(default=False)

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react'
-
 import { useOutletContext, useNavigate } from 'react-router-dom'
 import { getStoresByZip } from '../utils/krogerUtils'
-import SearchBar from '../components/searchBar'
 import ZipcodeSearch from '../components/zipcodeSearch'
 import ListWidget from '../components/listWidget'
 import StoreCard from '../components/StoreCard'
 
 export default function HomePage() {
   const [loading, setLoading] = useState(false)
-  const { isAuthenticated, stores, setStores, zipcode, setZipcode, searchQuery, setSearchQuery } = useOutletContext()
+  const { isAuthenticated, stores, setStores, zipcode, setZipcode} = useOutletContext()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -39,7 +37,7 @@ export default function HomePage() {
         setZipcode={setZipcode}
         onSearch={handleSearch}
       />
-      <div className='flex-1 mt-10 border-t border-black ' >
+      <div className=' mt-10 border-t border-black ' >
        
       </div>
       

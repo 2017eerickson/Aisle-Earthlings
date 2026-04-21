@@ -1,8 +1,9 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import FavoriteButton from './FavoriteButton'
+import AddToListButton from './AddToListButton'
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, storeName, storeAddress }) {
   const navigate = useNavigate()
 
   return (
@@ -39,9 +40,14 @@ export default function ProductCard({ product }) {
       </div>
 
       {/* Add to list */}
-      <button className='bg-rose-200 rounded px-2 py-1 text-xs font-bold tracking-widest w-fit cursor-pointer'>
-        add to list
-      </button>
+      <AddToListButton
+        upc={product.upc}
+        productName={product.name}
+        locationId={product.location_id}
+        storeName={storeName}
+        storeAddress={storeAddress}
+        className='bg-rose-200 rounded px-2 py-1 text-xs font-bold tracking-widest w-fit cursor-pointer'
+      />
 
     </div>
   )

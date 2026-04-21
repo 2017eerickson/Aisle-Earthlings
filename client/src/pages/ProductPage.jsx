@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useParams, useLocation, useOutletContext, useNavigate } from 'react-router-dom'
 import { Heart, Star } from 'lucide-react'
 import { getProductDetail, getStoreDetail } from '../utils/krogerUtils'
-import ListWidget from '../components/listWidget'
 import StackedThumbnails from '../components/StackedThumbnails'
+import AddToListButton from '../components/AddToListButton'
 
 export default function ProductPage() {
   const { upc } = useParams()
@@ -119,12 +119,15 @@ export default function ProductPage() {
           ))}
         </div>
         <span className='font-bold tracking-widest text-sm text-black'>reviews</span>
-        <button className='ml-auto bg-rose-200 rounded-lg px-4 py-2 text-sm font-bold tracking-widest cursor-pointer'>
-          add to list
-        </button>
+        <AddToListButton
+          upc={upc}
+          productName={product?.name || ''}
+          locationId={location_id || ''}
+          storeName={store?.display_name || ''}
+          storeAddress={store?.address_line || ''}
+          className='ml-auto bg-rose-200 rounded-lg px-4 py-2 text-sm font-bold tracking-widest cursor-pointer'
+        />
       </div>
-
-      <ListWidget />
 
       {/* Zoom modal */}
       {zoomed && activeImage && (
