@@ -50,7 +50,7 @@ export default function StoreCard({ store, index }) {
           >
             →
           </button>
-          <button onClick={() => navigate('/compare')}>
+          <button onClick={() => navigate('/compare', { state: { preloadStore: store } })}>
             <span className='bg-white rounded-md px-2 py-0.5 text-xs font-bold tracking-widest'>
               COMPARE
             </span>

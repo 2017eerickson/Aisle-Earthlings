@@ -14,6 +14,8 @@ function App() {
   const [searchQuery, setSearchQuery] = useState('')
   const [storeInfoMap, setStoreInfoMap] = useState({})
   const [favorites, setFavorites] = useState([])
+  const [selectedStores, setSelectedStores] = useState([null, null, null, null])
+  const [editingPanels, setEditingPanels] = useState(new Set())
 
   useEffect(() => {
     async function checkAuth() {
@@ -64,7 +66,7 @@ function App() {
         isAuthenticated={isAuthenticated}
         setIsAuthenticated={setIsAuthenticated}
       />
-      <Outlet context={{ isAuthenticated, setIsAuthenticated, stores, setStores, zipcode, setZipcode, searchQuery, setSearchQuery, storeInfoMap, setStoreInfoMap, isFavorite, toggleFavorite }} />
+      <Outlet context={{ isAuthenticated, setIsAuthenticated, stores, setStores, zipcode, setZipcode, searchQuery, setSearchQuery, storeInfoMap, setStoreInfoMap, isFavorite, toggleFavorite, selectedStores, setSelectedStores, editingPanels, setEditingPanels }} />
     </>
   )
 }
