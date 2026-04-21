@@ -18,11 +18,11 @@ export default function LoginPage() {
             if (isLogin) {
                 await loginUser(email, password)
                 setIsAuthenticated(true)
-                 navigate('/homepage')
+                 navigate('/about')
             } else {
                 await createUser(email, password)
                 setIsAuthenticated(true)
-                navigate('/homepage')
+                navigate('/about')
             }
         } catch (err) {
             setError(err.response?.data || 'Something went wrong. Please try again.')

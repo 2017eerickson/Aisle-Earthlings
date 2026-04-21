@@ -73,6 +73,10 @@ class UserProfile(models.Model):
         default='',
         help_text="Kroger locationId for the user's chosen store. Soft ref to CachedStore.",
     )
+    gemini_uses = models.PositiveIntegerField(
+        default=0,
+        help_text='Number of fresh Gemini vegan checks this user has made.',
+    )
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):

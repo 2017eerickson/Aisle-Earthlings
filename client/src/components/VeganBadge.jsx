@@ -8,7 +8,7 @@ const BADGE_CONFIG = {
 }
 
 export default function VeganBadge({ upc }) {
-  const [state, setState] = useState('idle') // idle | loading | done | error
+  const [state, setState] = useState('idle') // idle | loading | done | error | limit_reached
   const [status, setStatus] = useState(null)
 
   async function handleClick() {
@@ -18,9 +18,21 @@ export default function VeganBadge({ upc }) {
       const data = await getVeganStatus(upc)
       setStatus(data.vegan_status)
       setState('done')
-    } catch {
-      setState('error')
+    } catch (err) {
+      if (err.response?.status === 429) {
+        setState('limit_reached')
+      } else {
+        setState('error')
+      }
     }
+  }
+
+  if (state === 'limit_reached') {
+    return (
+      <span className='text-[10px] font-bold tracking-widest px-1.5 py-0.5 rounded bg-gray-300 text-gray-500'>
+        limit reached
+      </span>
+    )
   }
 
   if (state === 'idle' || state === 'error') {
