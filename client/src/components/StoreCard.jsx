@@ -37,10 +37,10 @@ export default function StoreCard({ store, index }) {
       </div>
 
       {/* Store info */}
-      <div className='flex-1 flex flex-col justify-between pl-1 text-left mt-2'>
-        <div className={`font-bold tracking-widest leading-tight text-black ${isLarge ? 'text-sm' : 'text-xs'}`}>
-          <h1 className='mt-3 text-xl'>{store.name}</h1>
-          <p className='mt-3'>{store.distance_miles != null ? `${store.distance_miles} mi` : ''}</p>
+      <div className='flex-1 flex flex-col justify-between pl-1 text-left mt-[1vmin]'>
+        <div className={`font-bold tracking-widest leading-tight text-black ${isLarge ? 'text-sm' : 'text-xs'} `}>
+          <h1 className=' text-xl'>{store.name}</h1>
+          <p className='mt-1'>{store.distance_miles != null ? `${store.distance_miles} mi` : ''}</p>
           <p>{store.address_line}, {store.city}</p>
         </div>
         <div className='flex items-center justify-between mt-1'>

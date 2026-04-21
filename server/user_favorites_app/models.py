@@ -20,6 +20,12 @@ class UserFavorite(models.Model):
         max_length=50,
         help_text='UPC for products, location_id for stores.',
     )
+    location_id = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text='Kroger location_id — only applicable for product favorites.',
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

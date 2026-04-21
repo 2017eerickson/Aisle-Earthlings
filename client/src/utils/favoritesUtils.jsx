@@ -11,8 +11,8 @@ export async function getFavorites() {
   return res.data
 }
 
-export async function addFavorite(favorite_type, reference_id) {
-  const res = await favoritesAPI.post('/', { favorite_type, reference_id })
+export async function addFavorite(favorite_type, reference_id, location_id = null) {
+  const res = await favoritesAPI.post('/', { favorite_type, reference_id, location_id })
   return res.data
 }
 

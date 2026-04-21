@@ -2,15 +2,17 @@ import React from 'react'
 import { Heart } from 'lucide-react'
 import { useOutletContext } from 'react-router-dom'
 
-export default function FavoriteButton({ type, referenceId, size = 16, className = '' }) {
+export default function FavoriteButton({ type, referenceId, locationId = null, size = 16, className = '' }) {
   const { isFavorite, toggleFavorite } = useOutletContext()
   const favorited = isFavorite(type, referenceId)
 
   async function handleClick(e) {
     e.stopPropagation()
     try {
-      await toggleFavorite(type, referenceId)
-    } catch {}
+      await toggleFavorite(type, referenceId, locationId)
+    } catch (error) {
+      console.error('Error toggling favorite:', error)
+    }
   }
 
   return (

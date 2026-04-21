@@ -10,7 +10,7 @@ export default function ProductCard({ product }) {
 
       {/* Product image or X placeholder */}
       <div className='relative bg-gray-300 border-2 border-black h-28 w-full overflow-hidden flex items-center justify-center flex-shrink-0'>
-        <FavoriteButton type='product' referenceId={product.upc} size={14} className='absolute top-1 right-1 z-10 bg-white rounded-full p-1' />
+        <FavoriteButton type='product' referenceId={product.upc} locationId={product.location_id} size={14} className='absolute top-1 right-1 z-10 bg-white rounded-full p-1' />
         {product.image_front ? (
           <img
             src={product.image_front}

@@ -46,13 +46,13 @@ function App() {
     return favorites.some(f => f.favorite_type === type && f.reference_id === referenceId)
   }
 
-  async function toggleFavorite(type, referenceId) {
+  async function toggleFavorite(type, referenceId, locationId = null) {
     const existing = favorites.find(f => f.favorite_type === type && f.reference_id === referenceId)
     if (existing) {
       await removeFavorite(existing.id)
       setFavorites(prev => prev.filter(f => f.id !== existing.id))
     } else {
-      const newFav = await addFavorite(type, referenceId)
+      const newFav = await addFavorite(type, referenceId, locationId)
       setFavorites(prev => [...prev, newFav])
     }
   }
@@ -66,7 +66,7 @@ function App() {
         isAuthenticated={isAuthenticated}
         setIsAuthenticated={setIsAuthenticated}
       />
-      <Outlet context={{ isAuthenticated, setIsAuthenticated, stores, setStores, zipcode, setZipcode, searchQuery, setSearchQuery, storeInfoMap, setStoreInfoMap, isFavorite, toggleFavorite, selectedStores, setSelectedStores, editingPanels, setEditingPanels }} />
+      <Outlet context={{ isAuthenticated, setIsAuthenticated, stores, setStores, zipcode, setZipcode, searchQuery, setSearchQuery, storeInfoMap, setStoreInfoMap, favorites, isFavorite, toggleFavorite, selectedStores, setSelectedStores, editingPanels, setEditingPanels }} />
     </>
   )
 }

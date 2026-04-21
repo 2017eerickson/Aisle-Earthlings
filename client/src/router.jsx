@@ -7,6 +7,7 @@ import ComparePage from './pages/ComparePage'
 import FavoritesPage from './pages/FavoritesPage'
 import StorePage from './pages/StorePage'
 import ProductPage from './pages/ProductPage'
+import { getFavorites } from './utils/favoritesUtils'
 const router = createBrowserRouter([
     {
         path: "/",
