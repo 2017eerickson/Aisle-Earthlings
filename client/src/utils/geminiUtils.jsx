@@ -6,8 +6,8 @@ const geminiAPI = axios.create({
   headers: { 'Content-Type': 'application/json' },
 })
 
-export async function getStoreInfo(locationId) {
-  const response = await geminiAPI.get(`/store-info/${locationId}/`)
+export async function getVeganStatus(upc) {
+  const response = await geminiAPI.get(`/vegan/${upc}/`)
   if (response.status !== 200) throw new Error(`Unexpected status: ${response.status}`)
   return response.data
 }

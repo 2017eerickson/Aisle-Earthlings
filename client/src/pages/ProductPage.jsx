@@ -4,6 +4,7 @@ import { Heart, Star } from 'lucide-react'
 import { getProductDetail, getStoreDetail } from '../utils/krogerUtils'
 import StackedThumbnails from '../components/StackedThumbnails'
 import AddToListButton from '../components/AddToListButton'
+import VeganBadge from '../components/VeganBadge'
 
 export default function ProductPage() {
   const { upc } = useParams()
@@ -80,6 +81,12 @@ export default function ProductPage() {
               <line x1='100%' y1='0' x2='0' y2='100%' stroke='black' strokeWidth='2' />
             </svg>
           )}
+          <div
+            className='absolute bottom-2 right-2 z-10'
+            onClick={e => e.stopPropagation()}
+          >
+            <VeganBadge upc={upc} />
+          </div>
         </div>
 
         {/* Info panel */}

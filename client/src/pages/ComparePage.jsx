@@ -41,6 +41,7 @@ export default function ComparePage() {
     } catch {
       setStores([])
     }
+    setEditingPanels(new Set([0, 1, 2, 3]))
   }
 
   function handleSelectStore(panelIndex, store) {

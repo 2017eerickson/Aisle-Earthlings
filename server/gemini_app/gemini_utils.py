@@ -41,7 +41,7 @@ from kroger_app.models import CachedProduct
 
 logger = logging.getLogger(__name__)
 
-GEMINI_MODEL = 'gemini-2.0-flash'
+GEMINI_MODEL = 'gemini-2.5-flash-lite'
 
 _PROMPT = """\
 You are a vegan product verification assistant.
@@ -60,26 +60,6 @@ Respond ONLY with a JSON object — no markdown, no extra text:
   {{"is_vegan": true, "reason": "brief explanation"}}
   {{"is_vegan": false, "reason": "brief explanation"}}
   {{"is_vegan": null, "reason": "not enough information to determine"}}
-"""
-
-
-_STORE_INFO_PROMPT = """\
-You are a grocery store information assistant.
-
-Using your knowledge, provide the following for this grocery store chain:
-
-Store: {name}
-Location: {address_line}, {city}, {state}
-
-Return ONLY a JSON object — no markdown, no extra text:
-{{
-  "chain_domain": "the official website domain, e.g. kroger.com",
-  "hours": "typical operating hours as a readable string, e.g. Mon-Sun 6am-11pm",
-  "review_summary": "2-3 sentence summary of what customers generally say about this chain",
-  "rating": 4.2
-}}
-
-Use null for any field you cannot determine with confidence.
 """
 
 
@@ -211,60 +191,3 @@ def _parse_store_info_response(raw, location_id):
         return {}
 
 
-def get_store_info(location_id):
-    """
-    Return logo URL, hours, review summary, and rating for the given store.
-
-    Cache-first: if CachedStore.info_checked is True, returns immediately
-    without calling Gemini.
-
-    Logo is constructed via Clearbit's free logo API using the chain domain
-    Gemini provides (e.g. https://logo.clearbit.com/kroger.com).
-
-    Args:
-        location_id (str): Must exist in CachedStore.
-
-    Returns:
-        tuple(CachedStore, bool): The updated store and whether result was cached.
-
-    Raises:
-        CachedStore.DoesNotExist: If the location_id is not in the cache.
-        GeminiAPIError: If the Gemini API call fails.
-    """
-    from kroger_app.models import CachedStore
-
-    store = CachedStore.objects.get(location_id=location_id)
-
-    if store.info_checked:
-        logger.debug('Store info cache hit for location %s', location_id)
-        return store, True
-
-    logger.info('Store info cache miss for location %s — calling Gemini', location_id)
-
-    client = genai.Client(api_key=settings.GEMINI_API_KEY)
-
-    prompt = _STORE_INFO_PROMPT.format(
-        name=store.name,
-        address_line=store.address_line,
-        city=store.city,
-        state=store.state,
-    )
-
-    try:
-        response = client.models.generate_content(model=GEMINI_MODEL, contents=prompt)
-        raw = response.text
-    except Exception as e:
-        raise GeminiAPIError(f'Gemini API call failed for location {location_id}: {e}') from e
-
-    data = _parse_store_info_response(raw, location_id)
-
-    domain = data.get('chain_domain')
-    store.logo_url = f'https://logo.clearbit.com/{domain}' if domain else ''
-    store.hours = data.get('hours') or ''
-    store.review_summary = data.get('review_summary') or ''
-    store.rating = data.get('rating')
-    store.info_checked = True
-    store.save(update_fields=['logo_url', 'hours', 'review_summary', 'rating', 'info_checked'])
-
-    logger.info('Store info saved for location %s', location_id)
-    return store, False
