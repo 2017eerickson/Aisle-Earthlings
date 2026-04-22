@@ -19,6 +19,8 @@ services:
   backend:
     build: ./server
     container_name: AE-django-container
+    env_file:
+      - .env
     command: sh -c "gunicorn aisle_earthlings.wsgi --bind 0.0.0.0:8000 --reload"
     ports:
       - "8000:8000"
