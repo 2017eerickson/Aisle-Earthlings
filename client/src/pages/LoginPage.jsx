@@ -35,6 +35,7 @@ export default function LoginPage() {
                 <h1 className='text-2xl font-bold text-center'>AISLE EARTHLINGS</h1>
                 <div className='flex border border-gray-200 rounded-md overflow-hidden'>
                     <button
+                        data-testid="tab-login"
                         className={`flex-1 py-2 text-sm font-medium ${isLogin ? 'bg-gray-900 text-white' : 'bg-white text-gray-600'}`}
                         onClick={() => setIsLogin(true)}
                         type='button'
@@ -42,6 +43,7 @@ export default function LoginPage() {
                         Log In
                     </button>
                     <button
+                        data-testid="tab-signup"
                         className={`flex-1 py-2 text-sm font-medium ${!isLogin ? 'bg-gray-900 text-white' : 'bg-white text-gray-600'}`}
                         onClick={() => setIsLogin(false)}
                         type='button'
@@ -51,6 +53,7 @@ export default function LoginPage() {
                 </div>
                 <form className='flex flex-col gap-3' onSubmit={handleSubmit}>
                     <input
+                        data-testid="email-input"
                         type='email'
                         placeholder='Email'
                         value={email}
@@ -59,6 +62,7 @@ export default function LoginPage() {
                         className='border border-gray-200 rounded-md px-3 py-2 text-sm outline-none focus:border-gray-400'
                     />
                     <input
+                        data-testid="password-input"
                         type='password'
                         placeholder='Password'
                         value={password}
@@ -66,8 +70,9 @@ export default function LoginPage() {
                         required
                         className='border border-gray-200 rounded-md px-3 py-2 text-sm outline-none focus:border-gray-400'
                     />
-                    {error && <p className='text-red-500 text-sm'>{JSON.stringify(error)}</p>}
+                    {error && <p data-testid="auth-error" className='text-red-500 text-sm'>{JSON.stringify(error)}</p>}
                     <button
+                        data-testid="submit-btn"
                         type='submit'
                         className='bg-gray-900 text-white py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition-colors'
                     >

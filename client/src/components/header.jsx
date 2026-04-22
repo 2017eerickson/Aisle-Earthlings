@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 export default function Header({ menuOpen, setMenuOpen }) {
   return (
     <div id='header' className='sticky top-0 z-30 bg-white flex flex-row justify-between items-center p-4 border-b-2 border-gray-200'>
-      <button onClick={() => setMenuOpen(!menuOpen)} className='cursor-pointer text-stone-900'>
+      <button data-testid="menu-btn" onClick={() => setMenuOpen(!menuOpen)} className='cursor-pointer text-stone-900'>
         <AnimatePresence mode="wait" initial={false}>
           {menuOpen ? (
             <motion.span

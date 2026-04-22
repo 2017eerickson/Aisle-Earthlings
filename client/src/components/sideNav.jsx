@@ -42,18 +42,18 @@ export default function SideNav({ menuOpen, setMenuOpen, isAuthenticated, setIsA
             </button>
             {isAuthenticated ? (
               <>
-                <h1><Link to='/homepage' onClick={() => setMenuOpen(false)}>HOME</Link></h1>
-                <h1><Link to='/compare' onClick={() => setMenuOpen(false)}>COMPARE</Link></h1>
-                <h1><Link to='/favorites' onClick={() => setMenuOpen(false)}>FAVORITES</Link></h1>
-                <h1><Link to='/about' onClick={() => setMenuOpen(false)}>ABOUT</Link></h1>
-                <h1><button onClick={handleLogout}>LOGOUT</button></h1>
+                <h1><Link data-testid="nav-home" to='/homepage' onClick={() => setMenuOpen(false)}>HOME</Link></h1>
+                <h1><Link data-testid="nav-compare" to='/compare' onClick={() => setMenuOpen(false)}>COMPARE</Link></h1>
+                <h1><Link data-testid="nav-favorites" to='/favorites' onClick={() => setMenuOpen(false)}>FAVORITES</Link></h1>
+                <h1><Link data-testid="nav-about" to='/about' onClick={() => setMenuOpen(false)}>ABOUT</Link></h1>
+                <h1><button data-testid="logout-btn" onClick={handleLogout}>LOGOUT</button></h1>
               </>
             ) : (
               <>
-                <h1><Link to='/homepage' onClick={() => setMenuOpen(false)}>HOME</Link></h1>
-                <h1><Link to='/about' onClick={() => setMenuOpen(false)}>ABOUT</Link></h1>
-                <h1><Link to='/' onClick={() => setMenuOpen(false)}>LOGIN</Link></h1>
-                <h1><Link to='/' onClick={() => setMenuOpen(false)}>SIGN UP</Link></h1>
+                <h1><Link data-testid="nav-home-unauth" to='/homepage' onClick={() => setMenuOpen(false)}>HOME</Link></h1>
+                <h1><Link data-testid="nav-about-unauth" to='/about' onClick={() => setMenuOpen(false)}>ABOUT</Link></h1>
+                <h1><Link data-testid="nav-login" to='/' onClick={() => setMenuOpen(false)}>LOGIN</Link></h1>
+                <h1><Link data-testid="nav-signup" to='/' onClick={() => setMenuOpen(false)}>SIGN UP</Link></h1>
               </>
             )}
           </motion.div>
