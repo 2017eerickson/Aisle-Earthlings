@@ -37,7 +37,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = eval(os.getenv('DEBUG', 'True'))  # Convert string to boolean
 
-ALLOWED_HOSTS = ['localhost', '0.0.0.0', '34.238.161.160' ]
+ALLOWED_HOSTS = ['localhost', '0.0.0.0', '34.238.161.160' , 'aisleearthlings.com', 'www.aisleearthlings.com']  # Update with your allowed hosts
 
 CORS_ALLOW_ALL_ORIGINS = True
 
