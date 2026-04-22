@@ -17,7 +17,7 @@ export default function StoreCard({ store, index }) {
   const navigate = useNavigate()
 
   return (
-    <div className={`relative ${bgColor} ${isLarge ? 'h-72' : 'h-56'} p-3 flex flex-col gap-2 rounded-md shadow-md `}>
+    <div data-testid='store-card' className={`relative ${bgColor} ${isLarge ? 'h-72' : 'h-56'} p-3 flex flex-col gap-2 rounded-md shadow-md `}>
 
       {/* Favorite */}
       <FavoriteButton
@@ -45,12 +45,13 @@ export default function StoreCard({ store, index }) {
         </div>
         <div className='flex items-center justify-between mt-1'>
           <button
+            data-testid='store-detail-btn'
             onClick={() => navigate(`/store/${store.location_id}/`)}
             className='font-bold tracking-widest text-black text-sm'
           >
             →
           </button>
-          <button onClick={() => navigate('/compare', { state: { preloadStore: store } })}>
+          <button data-testid='store-compare-btn' onClick={() => navigate('/compare', { state: { preloadStore: store } })}>
             <span className='bg-white rounded-md px-2 py-0.5 text-xs font-bold tracking-widest'>
               COMPARE
             </span>

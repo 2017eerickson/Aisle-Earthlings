@@ -38,6 +38,7 @@ export default function VeganBadge({ upc }) {
   if (state === 'idle' || state === 'error') {
     return (
       <button
+        data-testid='vegan-badge-btn'
         onClick={handleClick}
         className='text-[10px] font-bold tracking-widest px-1.5 py-0.5 rounded bg-gray-200 text-gray-600 cursor-pointer'
       >

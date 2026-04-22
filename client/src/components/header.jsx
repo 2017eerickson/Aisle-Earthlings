@@ -3,7 +3,7 @@ import { Link, Navigate } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 
-export default function Header({ menuOpen, setMenuOpen }) {
+export default function Header({ menuOpen, setMenuOpen , isAuthenticated}) {
   return (
     <div id='header' className='sticky top-0 z-30 bg-white flex flex-row justify-between items-center p-4 border-b-2 border-gray-200'>
       <button data-testid="menu-btn" onClick={() => setMenuOpen(!menuOpen)} className='cursor-pointer text-stone-900'>
@@ -34,7 +34,10 @@ export default function Header({ menuOpen, setMenuOpen }) {
         </AnimatePresence>
       </button>
       <h1 className='text-green-700 text-5xl tracking-[.20em]'>
-        <Link to='/homepage'>AISLE EARTHLINGS</Link>
+        <Link to = {
+          isAuthenticated ?  '/homepage' : '/login'
+        }
+        >AISLE EARTHLINGS</Link>
       </h1>
       <h3><Link to='/about'>ABOUT</Link></h3>
     </div>

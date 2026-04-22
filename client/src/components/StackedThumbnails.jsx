@@ -15,6 +15,7 @@ export default function StackedThumbnails({ product, activeImage, setActiveImage
               return (
                 <button
                   key={i}
+                  data-testid='thumbnail'
                   onClick={() => src && setActiveImage(src)}
                   className={`relative bg-gray-300 border w-20 h-20 overflow-hidden flex-shrink-0 cursor-pointer ${activeImage === src && src ? 'border-2 border-black' : 'border-gray-400'}`}
                 >

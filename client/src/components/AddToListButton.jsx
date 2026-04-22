@@ -38,7 +38,7 @@ export default function AddToListButton({ upc, productName, locationId = '', sto
   }
 
   return (
-    <button onClick={handleClick} className={`cursor-pointer ${className}`}>
+    <button data-testid='add-to-list-btn' onClick={handleClick} className={`cursor-pointer ${className}`}>
       {added ? 'added!' : 'add to list'}
     </button>
   )

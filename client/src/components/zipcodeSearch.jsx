@@ -8,6 +8,7 @@ export default function ZipcodeSearch({ zipcode, setZipcode, onSearch }) {
       <div className='flex items-center gap-3 px-4 pt-4'>
         <div className='flex-1 border-t border-black' />
         <input
+          data-testid='zipcode-input'
           type='text'
           placeholder='enter zipcode'
           value={zipcode}
@@ -16,6 +17,7 @@ export default function ZipcodeSearch({ zipcode, setZipcode, onSearch }) {
           className='bg-gray-300 px-4 py-2 text-sm font-bold tracking-widest placeholder:text-stone-700 placeholder:opacity-50 w-64 outline-none'
         />
         <button
+          data-testid='zipcode-search-btn'
           className='bg-gray-300 p-2 cursor-pointer'
           onClick={() => onSearch?.(zipcode)}
         >

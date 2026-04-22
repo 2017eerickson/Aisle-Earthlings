@@ -7,7 +7,7 @@ export default function ProductCard({ product, storeName, storeAddress }) {
   const navigate = useNavigate()
 
   return (
-    <div className='bg-gray-300 p-2 flex flex-col gap-2'>
+    <div data-testid='product-card' className='bg-gray-300 p-2 flex flex-col gap-2'>
 
       {/* Product image or X placeholder */}
       <div className='relative bg-gray-300 border-2 border-black h-28 w-full overflow-hidden flex items-center justify-center flex-shrink-0'>
@@ -32,6 +32,7 @@ export default function ProductCard({ product, storeName, storeAddress }) {
         <p className='truncate'>{product.brand}</p>
         <p>{product.price ? `$${product.price}` : '—'}</p>
         <button
+          data-testid='product-detail-btn'
           onClick={() => navigate(`/product/${product.upc}`, { state: { location_id: product.location_id } })}
           className='font-bold cursor-pointer'
         >

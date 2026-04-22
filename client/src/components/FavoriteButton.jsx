@@ -17,6 +17,7 @@ export default function FavoriteButton({ type, referenceId, locationId = null, s
 
   return (
     <button
+      data-testid='favorite-btn'
       onClick={handleClick}
       className={`cursor-pointer ${className}`}
       aria-label={favorited ? 'Remove from favorites' : 'Add to favorites'}

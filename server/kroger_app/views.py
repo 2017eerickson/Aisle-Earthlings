@@ -1,6 +1,9 @@
 from rest_framework.response import Response
 from rest_framework import status as s
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import TokenAuthentication
+from users_app.views import UserView
 
 from users_app.views import UserView
 from .serializers import CachedStoreSerializer
@@ -14,7 +17,7 @@ from .kroger_app_utils import (
 )
 
 
-class StoresByZip(APIView):
+class StoresByZip(UserView):
     """
     POST /api/v1/kroger/stores/by-zip/
     Body: { "zip_code": "21701" }
@@ -40,7 +43,7 @@ class StoresByZip(APIView):
         return Response(CachedStoreSerializer(stores, many=True).data, status=s.HTTP_200_OK)
 
 
-class KrogerProductSearch(APIView):
+class KrogerProductSearch(UserView):
     """
     POST /api/v1/kroger/search/products/
     Body: { "location_id": "01400376" }
@@ -70,7 +73,7 @@ class KrogerProductSearch(APIView):
         return Response(products, status=s.HTTP_200_OK)
 
 
-class ProductSearchByTerm(APIView):
+class ProductSearchByTerm(UserView):
     """
     POST /api/v1/kroger/search/products/by-term/
     Body: { "location_id": "01400376", "search_term": "almond milk" }
@@ -104,7 +107,7 @@ class ProductSearchByTerm(APIView):
         return Response(products, status=s.HTTP_200_OK)
 
 
-class StoreDetail(APIView):
+class StoreDetail(UserView):
     """
     GET /api/v1/kroger/stores/<location_id>/
     Returns a single cached store by location_id.
@@ -121,7 +124,7 @@ class StoreDetail(APIView):
         return Response(CachedStoreSerializer(store).data, status=s.HTTP_200_OK)
 
 
-class ProductDetailByLocation(APIView):
+class ProductDetailByLocation(UserView):
     """
     POST /api/v1/kroger/products/detail/
     Body: { "location_id": "01400376", "upc": "0001111042058" }

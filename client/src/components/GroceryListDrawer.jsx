@@ -42,6 +42,7 @@ export default function GroceryListDrawer({ listOpen, setListOpen, listItems, se
   }
 
   const checkedCount = listItems.filter(i => i.checked).length
+  console.log(listItems)
   return (
     
     <AnimatePresence >
@@ -55,6 +56,7 @@ export default function GroceryListDrawer({ listOpen, setListOpen, listItems, se
             onClick={() => setListOpen(false)}
           />
           <motion.div
+            data-testid='grocery-drawer'
             className='fixed top-0 right-0 flex flex-col h-screen w-[30%] bg-red-50 z-50 shadow-xl'
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
@@ -64,23 +66,25 @@ export default function GroceryListDrawer({ listOpen, setListOpen, listItems, se
             <div className='flex items-center justify-between p-4 border-b border-stone-200'>
               <h2 className='text-lg font-semibold text-stone-800'>
                 MY LIST{' '}
-                <span className='text-sm font-normal text-stone-500'>({listItems.length})</span>
+                <span data-testid='list-item-count' className='text-sm font-normal text-stone-500'>({listItems.length})</span>
               </h2>
-              <button onClick={() => setListOpen(false)} className='cursor-pointer'>
+              <button data-testid='drawer-close-btn' onClick={() => setListOpen(false)} className='cursor-pointer'>
                 <X size={24} />
               </button>
             </div>
 
             <div className='flex-1 overflow-y-auto p-4 flex flex-col gap-3'>
               {listItems.length === 0 && (
-                <p className='text-stone-400 text-center mt-8 text-sm'>Your list is empty</p>
+                <p data-testid='list-empty-msg' className='text-stone-400 text-center mt-8 text-sm'>Your list is empty</p>
               )}
               {listItems.map(item => (
                 <div
+                  data-testid='list-item'
                   key={item.id}
                   className={`flex items-center gap-3 p-3 rounded-lg bg-white shadow-sm ${item.checked ? 'opacity-50' : ''}`}
                 >
                   <input
+                    data-testid='item-checkbox'
                     type='checkbox'
                     checked={item.checked}
                     onChange={() => handleToggleCheck(item)}
@@ -89,6 +93,7 @@ export default function GroceryListDrawer({ listOpen, setListOpen, listItems, se
                   <div className='flex-1 flex flex-col min-w-0'>
                     {item.upc ? (
                       <Link
+                        data-testid='item-product-link'
                         to={`/product/${item.upc}`}
                         state={{ location_id: item.product_store_id }}
                         onClick={() => setListOpen(false)}
@@ -108,15 +113,16 @@ export default function GroceryListDrawer({ listOpen, setListOpen, listItems, se
                     )}
                   </div>
                   <div className='flex items-center gap-1'>
-                    <button onClick={() => handleQuantityChange(item, -1)} className='cursor-pointer p-0.5'>
+                    <button data-testid='qty-decrease' onClick={() => handleQuantityChange(item, -1)} className='cursor-pointer p-0.5'>
                       <Minus size={14} />
                     </button>
-                    <span className='text-sm w-5 text-center'>{item.quantity}</span>
-                    <button onClick={() => handleQuantityChange(item, 1)} className='cursor-pointer p-0.5'>
+                    <span data-testid='qty-display' className='text-sm w-5 text-center'>{item.quantity}</span>
+                    <button data-testid='qty-increase' onClick={() => handleQuantityChange(item, 1)} className='cursor-pointer p-0.5'>
                       <Plus size={14} />
                     </button>
                   </div>
                   <button
+                    data-testid='item-delete'
                     onClick={() => handleRemove(item.id)}
                     className='cursor-pointer text-stone-400 hover:text-red-500'
                   >
@@ -129,6 +135,7 @@ export default function GroceryListDrawer({ listOpen, setListOpen, listItems, se
             {checkedCount > 0 && (
               <div className='p-4 border-t border-stone-200'>
                 <button
+                  data-testid='clear-checked-btn'
                   onClick={handleClearChecked}
                   className='w-full text-sm text-stone-500 hover:text-red-500 cursor-pointer'
                 >

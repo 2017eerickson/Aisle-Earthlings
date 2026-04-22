@@ -1,8 +1,8 @@
 import React from 'react'
 
-export default function FavoritesSection({ title, bg, loading, items, search, onSearch, renderCard }) {
+export default function FavoritesSection({ title, bg, loading, items, search, onSearch, renderCard, testId }) {
   return (
-    <div className={`${bg} rounded-lg overflow-hidden flex flex-col`}>
+    <div data-testid={testId} className={`${bg} rounded-lg overflow-hidden flex flex-col`}>
       {/* Label + cards + arrow */}
       <div className='flex gap-8 flex-1 px-4 pt-5 min-h-[170px]'>
         <div className=' text-left text-white font-bold tracking-[.46em] text-sm leading-tight flex-shrink-0 w-28'>
@@ -17,7 +17,7 @@ export default function FavoritesSection({ title, bg, loading, items, search, on
               {items.map((item, i) => renderCard(item, i))}
             </div>
           ) : (
-            <p className='text-white font-bold tracking-[.46em] text-lg'>no favorites yet..</p>
+            <p data-testid='favorites-empty-msg' className='text-white font-bold tracking-[.46em] text-lg'>no favorites yet..</p>
           )}
         </div>
 

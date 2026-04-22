@@ -60,12 +60,13 @@ export default function StorePanel({ stores, selectedStore, onSelectStore, isEdi
 
   if (isEditing) {
     return (
-      <div className='bg-[#bcafaf] flex flex-col h-[532px]'>
+      <div data-testid='store-panel' className='bg-[#bcafaf] flex flex-col h-[532px]'>
         <div className='flex flex-col items-center justify-center flex-1 gap-4 py-10 px-4'>
           <p className='font-bold tracking-[.46em] text-black text-lg'>ADD STORE</p>
           <div className='flex flex-col items-center gap-3 w-full'>
             {stores.slice(0, 6).map(store => (
               <button
+                data-testid='store-option'
                 key={store.location_id}
                 onClick={() => onSelectStore(store)}
                 className='text-[#3155d8] font-bold tracking-widest text-sm cursor-pointer hover:underline text-center'
@@ -85,21 +86,22 @@ export default function StorePanel({ stores, selectedStore, onSelectStore, isEdi
   }
 
   return (
-    <div className='bg-[#bcafaf] flex flex-col h-[532px]'>
+    <div data-testid='store-panel' className='bg-[#bcafaf] flex flex-col h-[532px]'>
       {/* Panel header */}
       <div className='flex items-center gap-2 px-2 py-1.5 border-b border-black/20 shrink-0'>
         <span className=' font-bold tracking-widest  text-black truncate flex-1 min-w-0'>
-          <h1>{selectedStore ? selectedStore.name.toUpperCase() : 'NO STORE'}</h1>
+          <h1 data-testid='panel-store-name'>{selectedStore ? selectedStore.name.toUpperCase() : 'NO STORE'}</h1>
           <h6 className='text-gray-500 text-sm ' >{selectedStore ? selectedStore.address_line : null}</h6>
 
         </span>
         {selectedStore && (
           <FavoriteButton type='store' referenceId={selectedStore.location_id} size={13} />
         )}
-        <button onClick={onEdit} className='cursor-pointer shrink-0'>
+        <button data-testid='panel-edit-btn' onClick={onEdit} className='cursor-pointer shrink-0'>
           <Pencil size={13} className='text-gray-700' />
         </button>
         <input
+          data-testid='panel-search-input'
           type='text'
           value={searchQuery}
           onChange={e => setSearchQuery(e.target.value)}
@@ -107,7 +109,7 @@ export default function StorePanel({ stores, selectedStore, onSelectStore, isEdi
           placeholder='search'
           className='bg-[#d9d9d9] px-2 py-0.5 text-xs tracking-widest placeholder:opacity-50 outline-none w-24 shrink-0'
         />
-        <button onClick={handlePanelSearch} className='cursor-pointer shrink-0'>
+        <button data-testid='panel-search-btn' onClick={handlePanelSearch} className='cursor-pointer shrink-0'>
           <Search size={13} className='text-gray-700' />
         </button>
       </div>
@@ -117,6 +119,7 @@ export default function StorePanel({ stores, selectedStore, onSelectStore, isEdi
         {!selectedStore ? (
           <div className='flex items-center justify-center h-full'>
             <button
+              data-testid='select-store-btn'
               onClick={onEdit}
               className='font-bold tracking-widest text-xs text-black opacity-50  hover:opacity-100'
             >

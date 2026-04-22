@@ -5,6 +5,7 @@ import { getProductDetail, getStoreDetail } from '../utils/krogerUtils'
 import StackedThumbnails from '../components/StackedThumbnails'
 import AddToListButton from '../components/AddToListButton'
 import VeganBadge from '../components/VeganBadge'
+import FavoriteButton from '../components/FavoriteButton'
 
 export default function ProductPage() {
   const { upc } = useParams()
@@ -71,6 +72,7 @@ export default function ProductPage() {
         >
           {activeImage ? (
             <img
+              data-testid='main-image'
               src={activeImage}
               alt={product?.name}
               className='w-full h-full object-contain p-4'
@@ -91,20 +93,23 @@ export default function ProductPage() {
 
         {/* Info panel */}
         <div className='bg-rose-50 p-4 w-64 flex-shrink-0 relative'>
-          <button className='absolute top-3 right-3 cursor-pointer'>
-            <Heart size={24} className='text-gray-700' />
-          </button>
+          <FavoriteButton
+          referenceId={upc}
+          locationId={location_id}
+          type='product'
+          className='absolute top-2 right-2'
+          />
           <div className='font-bold tracking-widest text-xs text-black leading-loose text-left '>
             <p>Brand:</p>
-            <p className='font-normal opacity-70'>{product?.brand || '—'}</p>
+            <p data-testid='product-brand' className='font-normal opacity-70'>{product?.brand || '—'}</p>
             <p className='mt-2'>Product name:</p>
-            <p className='font-normal opacity-70'>{product?.name || '—'}</p>
+            <p data-testid='product-name' className='font-normal opacity-70'>{product?.name || '—'}</p>
             <p className='mt-2'>Store name/location:</p>
             <p className='font-normal opacity-70'>
               {store ? `${store.display_name}, ${store.city}` : '—'}
             </p>
             <p className='mt-2'>Price:</p>
-            <p className='font-normal opacity-70'>
+            <p data-testid='product-price' className='font-normal opacity-70'>
               {product?.price ? `$${product.price}` : '—'}
             </p>
             <p className='mt-2'>Contains:</p>

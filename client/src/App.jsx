@@ -85,7 +85,9 @@ function App() {
     <>
       <Header 
       menuOpen={menuOpen} 
-      setMenuOpen={setMenuOpen} />
+      setMenuOpen={setMenuOpen}
+      isAuthenticated={isAuthenticated}
+      />
 
       <SideNav
         menuOpen={menuOpen}

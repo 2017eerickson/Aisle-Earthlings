@@ -42,13 +42,13 @@ export default function HomePage() {
       </div>
       
       {loading ? (
-        <div className='flex-1 flex items-center justify-center py-16'>
+        <div data-testid='loading-state' className='flex-1 flex items-center justify-center py-16'>
           <p className='font-bold text-sm tracking-widest text-black'>
             Loading stores...
           </p>
         </div>
       ) : stores.length > 0 ? (
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-4 py-4 items-start'>
+        <div data-testid='store-grid' className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 px-4 py-4 items-start'>
           {stores.map((store, index) => (
             <StoreCard
               key={store.location_id}
@@ -58,8 +58,8 @@ export default function HomePage() {
           ))}
         </div>
       ) : (
-        <div className='flex-1 flex items-center justify-center py-16'>
-          <p className='font-bold text-2xl tracking-[.46em] text-black text-center'>
+        <div data-testid='empty-state' className='flex-1 flex items-center justify-center py-16'>
+          <p  className='font-bold text-2xl tracking-[.46em] text-black text-center'>
             Enter zip to generate stores closet to you!
           </p>
         </div>

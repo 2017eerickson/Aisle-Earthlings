@@ -1,5 +1,4 @@
-from rest_framework.authentication import TokenAuthentication
-from rest_framework_simplejwt.exceptions import TokenError, InvalidToken
+from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework import exceptions
 from functools import wraps

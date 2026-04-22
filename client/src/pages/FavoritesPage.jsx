@@ -52,6 +52,7 @@ export default function FavoritesPage() {
   return (
     <div className='flex-1 flex flex-col gap-6 px-8 py-8'>
       <FavoritesSection
+        testId='product-favorites-section'
         title={['PRODUCT', 'FAVORITES']}
         bg='bg-[#ff7900]'
         loading={loadingProducts}
@@ -65,6 +66,7 @@ export default function FavoritesPage() {
         )}
       />
       <FavoritesSection
+        testId='store-favorites-section'
         title={['STORE', 'FAVORITES']}
         bg='bg-[#ffb8c4]'
         loading={loadingStores}

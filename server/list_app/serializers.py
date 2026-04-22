@@ -10,7 +10,7 @@ class ShoppingListItemSerializer(serializers.ModelSerializer):
             'id', 'upc', 'product_name', 'product_store_id',
             'store_name', 'store_address', 'quantity', 'checked'
         ]
-        # read_only_fields = ['id', 'upc', 'product_name', 'product_store_id']
+        read_only_fields = ['id']
 
 
 class ShoppingListSerializer(serializers.ModelSerializer):

@@ -78,7 +78,7 @@ class LogIn(APIView):
                 httponly=True,
                 secure=True,
                 samesite='Lax',
-                expires=create_time_for_cookie(days=7)
+                expires=create_time_for_cookie(days=2)
             )
             return response
         else:
@@ -109,37 +109,3 @@ class LogOut(UserView):
         return response
 
 
-class Main_Sign_Up(APIView):
-    authentication_classes = []
-    permission_classes = []
-
-    @handle_exceptions
-    def post(self, request):
-        user = {
-            "email": request.data.get('email'),
-            "password": request.data.get('password'),
-        }
-        main_trainer = AppUser.objects.create_user(**user)
-        main_trainer.is_staff = True
-        main_trainer.is_superuser = True
-        main_trainer.save()
-        refresh = RefreshToken.for_user(main_trainer)
-        response = Response({"main_trainer": main_trainer.email, "id": main_trainer.id}, status=s.HTTP_201_CREATED)
-        response.set_cookie(
-            key='acess',
-            value=str(refresh.access_token),
-            httponly=True,
-            samesite='Lax',
-            secure=True,
-            expires=create_time_for_cookie(minutes=15),
-        )
-        response.set_cookie(
-            key='refresh',
-            value=str(refresh),
-            httponly=True,
-            samesite='Lax',
-            secure=True,
-            expires=create_time_for_cookie(days=2),
-        )
-        return response
-        

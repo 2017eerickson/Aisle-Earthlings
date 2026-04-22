@@ -76,9 +76,9 @@ useEffect(() => {
         {/* Info panel */}
         <div className='bg-rose-50 p-3 w-64 flex-shrink-0 overflow-auto'>
           <div className='font-bold tracking-widest text-xs text-black leading-loose'>
-            <h1>{store?.display_name || '—'}</h1>
+            <h1 data-testid='store-name'>{store?.display_name || '—'}</h1>
             {!loading && products.length > 0 && (
-              <p className='mt-1'>{products.length} vegan products</p>
+              <p data-testid='product-count' className='mt-1'>{products.length} vegan products</p>
             )}
           </div>
         </div>
@@ -99,15 +99,15 @@ useEffect(() => {
 
       {/* Product grid */}
       {loading ? (
-        <p className='font-bold text-sm tracking-widest text-black'>Loading...</p>
+        <p data-testid='store-loading' className='font-bold text-sm tracking-widest text-black'>Loading...</p>
       ) : products.length > 0 ? (
-        <div className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4'>
+        <div data-testid='product-grid' className='grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4'>
           {products.map(product => (
             <ProductCard key={product.upc} product={product} />
           ))}
         </div>
       ) : (
-        <p className='font-bold text-sm tracking-widest text-black opacity-50'>
+        <p data-testid='no-products' className='font-bold text-sm tracking-widest text-black opacity-50'>
           No products found.
         </p>
       )}
