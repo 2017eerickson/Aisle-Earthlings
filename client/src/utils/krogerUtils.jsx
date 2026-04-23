@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = '/api/v1/kroger';
+const BASE_URL = 'https://aisleearthlings.com/api/v1/kroger';
 
 // Returns up to 6 nearest Kroger stores for a given zip code.
 export const getStoresByZip = (zipCode) =>
