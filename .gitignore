@@ -16,3 +16,5 @@ db.sqlite3
 .idea
 .vscode
 server/.env
+default.local.conf
+docker-compose.override.yml

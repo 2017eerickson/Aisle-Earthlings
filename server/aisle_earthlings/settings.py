@@ -39,7 +39,13 @@ DEBUG = eval(os.getenv('DEBUG', 'True'))  # Convert string to boolean
 
 ALLOWED_HOSTS = ['localhost', '0.0.0.0', '34.238.161.160' , 'aisleearthlings.com', 'www.aisleearthlings.com']  # Update with your allowed hosts
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [                                                                                                            
+      "http://localhost",                                                                                                               
+      "https://aisleearthlings.com",                                                                                                  
+      "https://www.aisleearthlings.com",                                                                                                
+  ]  
+                                   
+CORS_ALLOW_CREDENTIALS = True    
 
 # Application definition
 
@@ -137,7 +143,7 @@ REST_FRAMEWORK = {
 				        'rest_framework.throttling.UserRateThrottle',
 				    ],
 				    'DEFAULT_THROTTLE_RATES': {
-				        'user': '300/day', 
+				        'user': '100/day', 
 				        }
 }
 
