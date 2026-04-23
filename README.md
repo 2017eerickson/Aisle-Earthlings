@@ -4,9 +4,14 @@ A vegan-centric grocery shopping assistant that lets you search, compare, and tr
 
 ---
 
+
 ## Purpose
 
 Finding vegan products across multiple stores is tedious. This is for vegans who want to find specific grocery items and compare price or availability for grocery stores near them. Aisle Earthlings is a comprehensive compendium of vegan grocery items for kroger associated stores near you. Unlike other grocery shopping apps our product will be able to find the vegan items that other filters fail to properly categorize and clearly display in a comparitive mannor.
+
+## Figma design 
+
+https://www.figma.com/design/oI25xwaR20Jj0u6C70VHi5/Aisle-Earthings?node-id=0-1&m=dev&t=NEBNF9tYDB6A4ey5-1
 
 ## Features
 
