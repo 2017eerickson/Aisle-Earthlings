@@ -42,7 +42,7 @@ export default function GroceryListDrawer({ listOpen, setListOpen, listItems, se
   }
 
   const checkedCount = listItems.filter(i => i.checked).length
-  console.log(listItems)
+  
   return (
     
     <AnimatePresence >
