@@ -178,8 +178,6 @@ def _parse_store(raw):
         'city': address.get('city', ''),
         'state': address.get('state', ''),
         'zip_code': address.get('zipCode', ''),
-        'latitude': geolocation.get('latitude'),
-        'longitude': geolocation.get('longitude'),
         'distance_miles': raw.get('distance'),
     }
 
