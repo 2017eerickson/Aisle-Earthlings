@@ -19,7 +19,7 @@ export default function ProductPage() {
   const [loading, setLoading] = useState(true)
   const [activeImage, setActiveImage] = useState(null)
   const [zoomed, setZoomed] = useState(false)
-
+  
   useEffect(() => {
     if (isAuthenticated === false) navigate('/')
   }, [isAuthenticated])
@@ -112,8 +112,8 @@ export default function ProductPage() {
             <p data-testid='product-price' className='font-normal opacity-70'>
               {product?.price ? `$${product.price}` : '—'}
             </p>
-            <p className='mt-2'>Contains:</p>
-            <p className='font-normal opacity-70'>{product?.categories || '—'}</p>
+            <p className='mt-2'>In Stock:</p>
+            <p className='font-normal opacity-70'>{product?.in_stock !== undefined ? (product.in_stock ? 'Yes' : 'No') : '—'}</p>
           </div>
         </div>
 

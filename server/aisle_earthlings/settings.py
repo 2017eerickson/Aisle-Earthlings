@@ -47,7 +47,7 @@ CORS_ALLOWED_ORIGINS = [
                                    
 CORS_ALLOW_CREDENTIALS = True 
 
-<<<<<<< HEAD
+
 CORS_ALLOWED_ORIGINS = [                                                                                                            
       "http://localhost",                                                                                                               
       "https://aisleearthlings.com",                                                                                                  
@@ -55,8 +55,7 @@ CORS_ALLOWED_ORIGINS = [
   ]  
                                    
 CORS_ALLOW_CREDENTIALS = True    
-=======
->>>>>>> dev
+
 
 # Application definition
 

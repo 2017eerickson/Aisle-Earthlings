@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const authAPI = axios.create({
-    baseURL: 'https://aisleearthlings.com/api/v1/users',
+    baseURL: '/api/v1/users',
     withCredentials: true,
     headers: { 'Content-Type': 'application/json' },
 })
