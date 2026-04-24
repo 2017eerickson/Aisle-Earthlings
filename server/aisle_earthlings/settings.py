@@ -37,7 +37,7 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = eval(os.getenv('DEBUG', 'True'))  # Convert string to boolean
 
-ALLOWED_HOSTS = eval(os.getenv('ALLOWED_HOSTS', '[]'))  # Update with your allowed hosts
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')  # Update with your allowed hosts
 
 CORS_ALLOWED_ORIGINS = [                                                                                                            
       "http://localhost",                                                                                                               
