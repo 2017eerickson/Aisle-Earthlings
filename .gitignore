@@ -18,3 +18,4 @@ db.sqlite3
 server/.env
 default.local.conf
 docker-compose.override.yml
+client/dist/ 
