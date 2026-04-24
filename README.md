@@ -4,6 +4,9 @@ A vegan-centric grocery shopping assistant that lets you search, compare, and tr
 
 ---
 
+## Launched site
+
+https://aisleearthlings.com/
 
 ## Purpose
 
