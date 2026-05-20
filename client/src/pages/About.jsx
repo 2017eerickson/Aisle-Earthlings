@@ -11,7 +11,7 @@ export default function About() {
         </p>
 
         <h1 className="text-3xl font-medium text-gray-900 mb-4 leading-snug">
-            Welcome to Aisle Earthlings
+            Welcome test to Aisle Earthlings
         </h1>
 
         {isAuthenticated && (

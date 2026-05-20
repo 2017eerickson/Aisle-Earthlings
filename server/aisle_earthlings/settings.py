@@ -42,19 +42,12 @@ ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')  # Update with yo
 CORS_ALLOWED_ORIGINS = [                                                                                                            
       "http://localhost",                                                                                                               
       "https://aisleearthlings.com",                                                                                                  
-      "https://www.aisleearthlings.com",                                                                                                
+      "https://www.aisleearthlings.com",     
+      "http://localhost:5173"                                                                                          
   ]  
                                    
 CORS_ALLOW_CREDENTIALS = True 
 
-
-CORS_ALLOWED_ORIGINS = [                                                                                                            
-      "http://localhost",                                                                                                               
-      "https://aisleearthlings.com",                                                                                                  
-      "https://www.aisleearthlings.com",                                                                                                
-  ]  
-                                   
-CORS_ALLOW_CREDENTIALS = True    
 
 
 # Application definition

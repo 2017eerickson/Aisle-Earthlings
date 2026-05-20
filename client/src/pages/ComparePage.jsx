@@ -80,7 +80,7 @@ export default function ComparePage() {
           value={globalSearchQuery}
           onChange={e => setGlobalSearchQuery(e.target.value)}
           onKeyDown={e => e.key === 'Enter' && handleSearchAll()}
-          className='bg-gray-300 px-4 py-3 text-sm font-bold tracking-widest placeholder:text-stone-700 placeholder:opacity-50 w-80 outline-none'
+          className='bg-gray-300 px-4 py-3 text-sm font-bold tracking-widest placeholder:text-stone-700 placeholder:opacity-50 w-64 sm:w-80 outline-none'
         />
         <button data-testid='global-search-btn' className='bg-gray-300 p-3 cursor-pointer' onClick={handleSearchAll}>
           <Search size={20} className='text-stone-800' />
@@ -89,7 +89,7 @@ export default function ComparePage() {
       </div>
 
       {/* 2×2 panel grid */}
-      <div className='grid grid-cols-2 gap-4 px-4 pb-4'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 px-4 pb-4'>
         {[0, 1, 2, 3].map(i => (
           <StorePanel
             key={i}
