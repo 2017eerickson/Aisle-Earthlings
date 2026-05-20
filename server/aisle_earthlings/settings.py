@@ -43,7 +43,9 @@ CORS_ALLOWED_ORIGINS = [
       "http://localhost",                                                                                                               
       "https://aisleearthlings.com",                                                                                                  
       "https://www.aisleearthlings.com",     
-      "http://localhost:5173"                                                                                          
+      "http://localhost:5173"
+      "http://localhost:80" 
+                                                                                               
   ]  
                                    
 CORS_ALLOW_CREDENTIALS = True 

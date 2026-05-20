@@ -15,6 +15,8 @@ def create_time_for_cookie(days=0, minutes=2):
     life_time = datetime.now() + timedelta(days=days, minutes=minutes)
     format_time = life_time.strftime("%a, %d %b %Y %H:%M:%S GMT")
     return format_time
+
+                
 class CreateUser(APIView):
     authentication_classes = []
     permission_classes = []
@@ -32,17 +34,17 @@ class CreateUser(APIView):
             response.set_cookie(
                 key='acess',
                 value=str(refresh.access_token),
-                httponly=True,
+                httponly=False,
                 samesite='Lax',
-                secure=True,
+                secure=False,
                 expires=create_time_for_cookie(minutes=15),
                 )
             response.set_cookie(
                 key='refresh',
                 value=str(refresh),
-                httponly=True,
+                httponly=False,
                 samesite='Lax',
-                secure=True,
+                secure=False,
                 expires=create_time_for_cookie(days=2),
                 )
             return response
@@ -68,7 +70,7 @@ class LogIn(APIView):
                 key='acess',
                 value=str(refresh.access_token),
                 httponly=True,
-                secure=True,
+                secure=False,
                 samesite='Lax',
                 expires=create_time_for_cookie(minutes=15)
             )
@@ -76,7 +78,7 @@ class LogIn(APIView):
                 key='refresh',
                 value=str(refresh),
                 httponly=True,
-                secure=True,
+                secure=False,
                 samesite='Lax',
                 expires=create_time_for_cookie(days=2)
             )
