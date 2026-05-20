@@ -43,6 +43,7 @@ logger = logging.getLogger(__name__)
 
 GEMINI_MODEL = 'gemini-2.5-flash-lite'
 
+
 _PROMPT = """\
 You are a vegan product verification assistant.
 
