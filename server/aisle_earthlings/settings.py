@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
-from pathlib import Path
 from dotenv import load_dotenv
 load_dotenv()  # Load environment variables from .env file
 
@@ -37,28 +36,16 @@ SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG') == 'True'  # Convert string to boolean
 
-<<<<<<< HEAD
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
-=======
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '').split(',')  # Update with your allowed hosts
->>>>>>> main
 
-CORS_ALLOWED_ORIGINS = [                                                                                                            
-      "http://localhost",                                                                                                               
-      "https://aisleearthlings.com",                                                                                                  
-      "https://www.aisleearthlings.com",                                                                                                
-  ]  
-                                   
-CORS_ALLOW_CREDENTIALS = True 
+CORS_ALLOWED_ORIGINS = [
+    "https://aisleearthlings.com",
+    "https://www.aisleearthlings.com",
+]
+if DEBUG:
+    CORS_ALLOWED_ORIGINS.append("http://localhost")
 
-
-CORS_ALLOWED_ORIGINS = [                                                                                                            
-      "http://localhost",                                                                                                               
-      "https://aisleearthlings.com",                                                                                                  
-      "https://www.aisleearthlings.com",                                                                                                
-  ]  
-                                   
-CORS_ALLOW_CREDENTIALS = True    
+CORS_ALLOW_CREDENTIALS = True
 
 
 # Application definition
