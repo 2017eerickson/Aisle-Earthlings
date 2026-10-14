@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const geminiAPI = axios.create({
-  baseURL: '/api/v1/gemini',
+  baseURL: 'https://aisleearthlings.com/api/v1/gemini',
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 })
