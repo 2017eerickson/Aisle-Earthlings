@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const favoritesAPI = axios.create({
-  baseURL: 'https://aisleearthlings.com/api/v1/favorites',
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api/v1/favorites`,
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 })

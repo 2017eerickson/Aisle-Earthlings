@@ -47,6 +47,18 @@ if DEBUG:
 
 CORS_ALLOW_CREDENTIALS = True
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://aisleearthlings.com",
+    "https://www.aisleearthlings.com",
+]
+
+if not DEBUG:
+    SECURE_SSL_REDIRECT = True
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_HSTS_SECONDS = 31536000
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
 
 # Application definition
 
@@ -144,7 +156,7 @@ REST_FRAMEWORK = {
 				        'rest_framework.throttling.UserRateThrottle',
 				    ],
 				    'DEFAULT_THROTTLE_RATES': {
-				        'user': '100/day', 
+				        'user': '1000/day', 
 				        }
 }
 

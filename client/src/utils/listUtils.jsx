@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const listAPI = axios.create({
-  baseURL: 'https://aisleearthlings.com/api/v1/list', 
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api/v1/list`,
   withCredentials: true,
   headers: { 'Content-Type': 'application/json' },
 })
