@@ -17,5 +17,5 @@ jobs:
           script: |
             cd ~/Aisle-Earthlings
             git pull origin main
-            cd client && npm install && npm run build && cd ..
-            docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+            sudo cd client && npm install && npm run build && cd ..
+            sudo docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
