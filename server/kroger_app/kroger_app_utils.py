@@ -47,6 +47,7 @@ from decimal import Decimal, InvalidOperation
 import requests
 from django.conf import settings
 
+from django.core.cache import cache
 from kroger_app.models import CachedStore, CachedProduct, ProductPrice
 
 logger = logging.getLogger(__name__)
@@ -205,9 +206,15 @@ def get_locations_by_zip(zip_code):
     if not zip_code or not zip_code.isdigit() or len(zip_code) != 5:
         raise ValueError(f'zip_code must be a 5-digit string, got: {repr(zip_code)}')
 
+    cache_key = f"stores:zip:{zip_code}"
+    redis_cached = cache.get(cache_key)
+    if redis_cached is not None:
+        return redis_cached
+
     cached = list(CachedStore.objects.filter(searched_zip=zip_code))
     if cached:
         logger.debug('Cache hit for zip %s — returning %d stores', zip_code, len(cached))
+        cache.set(cache_key, cached, timeout=86400)
         return cached
 
     logger.info('Cache miss for zip %s — fetching from Kroger API', zip_code)
@@ -241,6 +248,7 @@ def get_locations_by_zip(zip_code):
         )
 
     logger.info('Returning %d stores for zip %s', len(stores), zip_code)
+    cache.set(cache_key, stores, timeout=86400)
     return stores
 
 
@@ -340,6 +348,11 @@ def get_vegan_products_for_location(location_id, limit=30):
     """
     store = CachedStore.objects.get(location_id=location_id)
 
+    cache_key = f"products:location:{location_id}"
+    redis_cached = cache.get(cache_key)
+    if redis_cached is not None:
+        return redis_cached
+
     logger.info(
         'Fetching up to %d vegan products for location %s (%s)',
         limit, location_id, store.display_name,
@@ -402,6 +415,7 @@ def get_vegan_products_for_location(location_id, limit=30):
         'Returning %d vegan products for location %s',
         len(results), location_id,
     )
+    cache.set(cache_key, results, timeout=3600)
     return results
 
 
