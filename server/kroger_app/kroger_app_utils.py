@@ -348,6 +348,11 @@ def get_vegan_products_for_location(location_id, limit=30):
     """
     store = CachedStore.objects.get(location_id=location_id)
 
+    cache_key = f"products:location:{location_id}"
+    redis_cached = cache.get(cache_key)
+    if redis_cached is not None:
+        return redis_cached
+
     logger.info(
         'Fetching up to %d vegan products for location %s (%s)',
         limit, location_id, store.display_name,
@@ -410,6 +415,7 @@ def get_vegan_products_for_location(location_id, limit=30):
         'Returning %d vegan products for location %s',
         len(results), location_id,
     )
+    cache.set(cache_key, results, timeout=3600)
     return results
 
 
