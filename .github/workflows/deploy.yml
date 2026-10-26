@@ -15,7 +15,11 @@ jobs:
           username: ubuntu
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            set -e
             cd ~/Aisle-Earthlings
             git pull origin main
-            cd client && sudo npm install && sudo npm run build && cd ..
+            cd client
+            npm ci
+            npm run build
+            cd ..
             sudo docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
