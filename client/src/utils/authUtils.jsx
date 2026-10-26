@@ -32,3 +32,15 @@ export async function logoutUser() {
     if (response.status !== 200) throw new Error(`Unexpected status: ${response.status}`)
     return response.data
 }
+
+export async function requestPasswordReset(email) {
+    const response = await authAPI.post('/forgot-password/', { email })
+    if (response.status !== 200) throw new Error(`Unexpected status: ${response.status}`)
+    return response.data
+}
+
+export async function resetPassword(uid, token, password) {
+    const response = await authAPI.post('/reset-password/', { uid, token, password })
+    if (response.status !== 200) throw new Error(`Unexpected status: ${response.status}`)
+    return response.data
+}

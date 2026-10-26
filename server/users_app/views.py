@@ -1,4 +1,10 @@
 from django.contrib.auth import authenticate
+from django.contrib.auth.tokens import default_token_generator
+from django.contrib.auth.password_validation import validate_password
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.core.mail import send_mail
+from django.conf import settings
 from .models import AppUser
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -102,10 +108,84 @@ class LogOut(UserView):
                 token.blacklist()
             except (TokenError, InvalidToken) as e:
                 print(str(e))
-                return Response(e.args, status=s.HTTP_400_BAD_REQUEST)    
+                return Response(e.args, status=s.HTTP_400_BAD_REQUEST)
         response = Response(f"{user.email} has been logged out", status=s.HTTP_200_OK)
         response.delete_cookie('acess')
         response.delete_cookie('refresh')
         return response
+
+class ForgotPassword(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    @handle_exceptions
+    def post(self, request):
+        email = request.data.get('email')
+        if not email:
+            return Response({"error": "Email is required"}, status=s.HTTP_400_BAD_REQUEST)
+
+        # Always return 200 to prevent email enumeration
+        try:
+            user = AppUser.objects.get(email=email)
+        except AppUser.DoesNotExist:
+            return Response(
+                {"message": "If an account with that email exists, a reset link has been sent."},
+                status=s.HTTP_200_OK
+            )
+
+        uid = urlsafe_base64_encode(force_bytes(user.pk))
+        token = default_token_generator.make_token(user)
+        reset_url = f"{settings.FRONTEND_URL}/reset-password/{uid}/{token}"
+
+        send_mail(
+            subject="Aisle Earthlings - Password Reset",
+            message=f"Click the link below to reset your password:\n\n{reset_url}\n\nThis link expires in 1 hour.\n\nIf you didn't request this, ignore this email.",
+            from_email=settings.DEFAULT_FROM_EMAIL,
+            recipient_list=[user.email],
+            fail_silently=False,
+        )
+
+        return Response(
+            {"message": "If an account with that email exists, a reset link has been sent."},
+            status=s.HTTP_200_OK
+        )
+
+class ResetPassword(APIView):
+    authentication_classes = []
+    permission_classes = []
+
+    @handle_exceptions
+    def post(self, request):
+        uid = request.data.get('uid')
+        token = request.data.get('token')
+        password = request.data.get('password')
+
+        if not uid or not token or not password:
+            return Response(
+                {"error": "uid, token, and password are required"},
+                status=s.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            user_id = force_str(urlsafe_base64_decode(uid))
+            user = AppUser.objects.get(pk=user_id)
+        except (TypeError, ValueError, OverflowError, AppUser.DoesNotExist):
+            return Response({"error": "Invalid reset link"}, status=s.HTTP_400_BAD_REQUEST)
+
+        if not default_token_generator.check_token(user, token):
+            return Response(
+                {"error": "Reset link is invalid or has expired"},
+                status=s.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            validate_password(password, user)
+        except Exception as e:
+            return Response({"error": e.messages}, status=s.HTTP_400_BAD_REQUEST)
+
+        user.set_password(password)
+        user.save()
+
+        return Response({"message": "Password has been reset successfully"}, status=s.HTTP_200_OK)
 
 

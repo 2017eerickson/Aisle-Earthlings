@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { loginUser, createUser } from '../utils/authUtils'
 import { useOutletContext } from 'react-router-dom'
 
@@ -78,6 +78,14 @@ export default function LoginPage() {
                     >
                         {isLogin ? 'Log In' : 'Create Account'}
                     </button>
+                    {isLogin && (
+                        <Link
+                            to='/forgot-password'
+                            className='text-sm text-center text-gray-500 hover:text-gray-700 transition-colors'
+                        >
+                            Forgot Password?
+                        </Link>
+                    )}
                 </form>
             </div>
         </div>

@@ -1,5 +1,9 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import reverse
+from django.core import mail
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
 from rest_framework.test import APIClient
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken
@@ -207,3 +211,100 @@ class MainSignUpTests(TestCase):
         self.assertIn('acess', response.cookies)
         self.assertIn('refresh', response.cookies)
         self.assertTrue(response.cookies['acess'].value)
+
+
+# ---------------------------------------------------------------------------
+# POST /api/v1/users/forgot-password/
+# ---------------------------------------------------------------------------
+@override_settings(EMAIL_BACKEND='django.core.mail.backends.locmem.EmailBackend')
+class ForgotPasswordTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.url = reverse('forgot_password')
+        self.user = make_user(email='user@example.com', password='testpass123')
+
+    def test_valid_email_returns_200(self):
+        response = self.client.post(self.url, {'email': 'user@example.com'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_nonexistent_email_returns_200(self):
+        response = self.client.post(self.url, {'email': 'nobody@example.com'})
+        self.assertEqual(response.status_code, 200)
+
+    def test_missing_email_returns_400(self):
+        response = self.client.post(self.url, {})
+        self.assertEqual(response.status_code, 400)
+
+    def test_email_is_sent_for_valid_user(self):
+        self.client.post(self.url, {'email': 'user@example.com'})
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn('reset-password', mail.outbox[0].body)
+        self.assertEqual(mail.outbox[0].to, ['user@example.com'])
+
+    def test_no_email_sent_for_nonexistent_user(self):
+        self.client.post(self.url, {'email': 'nobody@example.com'})
+        self.assertEqual(len(mail.outbox), 0)
+
+    def test_same_message_regardless_of_email_existence(self):
+        r1 = self.client.post(self.url, {'email': 'user@example.com'})
+        r2 = self.client.post(self.url, {'email': 'nobody@example.com'})
+        self.assertEqual(r1.data['message'], r2.data['message'])
+
+
+# ---------------------------------------------------------------------------
+# POST /api/v1/users/reset-password/
+# ---------------------------------------------------------------------------
+class ResetPasswordTests(TestCase):
+    def setUp(self):
+        self.client = APIClient()
+        self.url = reverse('reset_password')
+        self.user = make_user(email='user@example.com', password='testpass123')
+        self.uid = urlsafe_base64_encode(force_bytes(self.user.pk))
+        self.token = default_token_generator.make_token(self.user)
+
+    def test_valid_token_resets_password(self):
+        response = self.client.post(self.url, {
+            'uid': self.uid, 'token': self.token, 'password': 'newSecurePass1!'
+        })
+        self.assertEqual(response.status_code, 200)
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password('newSecurePass1!'))
+
+    def test_invalid_token_returns_400(self):
+        response = self.client.post(self.url, {
+            'uid': self.uid, 'token': 'bad-token', 'password': 'newSecurePass1!'
+        })
+        self.assertEqual(response.status_code, 400)
+
+    def test_invalid_uid_returns_400(self):
+        response = self.client.post(self.url, {
+            'uid': 'baduid', 'token': self.token, 'password': 'newSecurePass1!'
+        })
+        self.assertEqual(response.status_code, 400)
+
+    def test_missing_fields_returns_400(self):
+        response = self.client.post(self.url, {'uid': self.uid})
+        self.assertEqual(response.status_code, 400)
+
+    def test_token_is_one_time_use(self):
+        self.client.post(self.url, {
+            'uid': self.uid, 'token': self.token, 'password': 'newSecurePass1!'
+        })
+        response = self.client.post(self.url, {
+            'uid': self.uid, 'token': self.token, 'password': 'anotherPass2!'
+        })
+        self.assertEqual(response.status_code, 400)
+
+    def test_weak_password_returns_400(self):
+        response = self.client.post(self.url, {
+            'uid': self.uid, 'token': self.token, 'password': '1'
+        })
+        self.assertEqual(response.status_code, 400)
+
+    @override_settings(PASSWORD_RESET_TIMEOUT=0)
+    def test_expired_token_returns_400(self):
+        token = default_token_generator.make_token(self.user)
+        response = self.client.post(self.url, {
+            'uid': self.uid, 'token': token, 'password': 'newSecurePass1!'
+        })
+        self.assertEqual(response.status_code, 400)
