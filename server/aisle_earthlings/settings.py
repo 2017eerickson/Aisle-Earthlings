@@ -22,6 +22,16 @@ KROGER_API_BASE_URL=os.getenv('KROGER_API_BASE_URL')
 
 GEMINI_API_KEY=os.getenv('GEMINI_API_KEY')
 
+FRONTEND_URL = os.getenv('FRONTEND_URL', 'http://localhost:5173')
+
+# Email (Resend SMTP)
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'smtp.resend.com')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', 'resend')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', '')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -43,6 +53,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://www.aisleearthlings.com",
 ]
 if DEBUG:
+    CORS_ALLOWED_ORIGINS.append("http://localhost:5173")
     CORS_ALLOWED_ORIGINS.append("http://localhost")
 
 CORS_ALLOW_CREDENTIALS = True

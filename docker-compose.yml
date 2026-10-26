@@ -5,7 +5,7 @@ services:
     env_file:
       - .env
     ports:
-      - "5433:5432"
+      - "5434:5432"
     volumes:
       - ./postgres_data/:/var/lib/postgresql/data/
   redis:
@@ -21,7 +21,7 @@ services:
       - .env
     command: sh -c "gunicorn aisle_earthlings.wsgi --bind 0.0.0.0:8000 --reload"
     ports:
-      - "8000:8000"
+      - "8001:8000"
     volumes:
       - ./server:/app
     depends_on:

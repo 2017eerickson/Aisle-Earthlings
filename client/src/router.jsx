@@ -7,6 +7,8 @@ import ComparePage from './pages/ComparePage'
 import FavoritesPage from './pages/FavoritesPage'
 import StorePage from './pages/StorePage'
 import ProductPage from './pages/ProductPage'
+import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import ResetPasswordPage from './pages/ResetPasswordPage'
 
 const router = createBrowserRouter([
     {
@@ -40,6 +42,14 @@ const router = createBrowserRouter([
             {
                 path: 'product/:upc/',
                 element: <ProductPage />
+            },
+            {
+                path: 'forgot-password/',
+                element: <ForgotPasswordPage />
+            },
+            {
+                path: 'reset-password/:uid/:token',
+                element: <ResetPasswordPage />
             },
         ]
     }
